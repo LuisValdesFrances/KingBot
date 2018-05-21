@@ -1,11 +1,24 @@
 package com.luis.kingboot.main;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import com.luis.kingboot.boot.Boot;
 
 
 public class Main {
 
+	private static Object mutex;
 	public static void main(String[] args) {
+		mutex = new Object();
+		List<Boot> bootList = new ArrayList<Boot>();
+		bootList.add(new Boot(mutex, "Super PepeToni"));
+		bootList.add(new Boot(mutex, "Super Cami"));
+		bootList.add(new Boot(mutex, "Don Coco"));
 		
+		for(Boot boot : bootList){
+			boot.start();
+		}
 
 	}
 

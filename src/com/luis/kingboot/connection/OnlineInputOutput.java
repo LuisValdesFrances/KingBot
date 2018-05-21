@@ -26,6 +26,9 @@ public class OnlineInputOutput {
 	public static final String URL_GET_SCENE_LIST = "getSceneListServlet";
 	public static final String URL_GET_PRE_SCENE_LIST = "getPreSceneListServlet";
 	public static final String URL_GET_ALL_PRE_SCENE_LIST = "getAllPreSceneListServlet";
+	public static final String URL_UPDATE_SCENE = "updateSceneServlet";
+	public static final String URL_GET_START_SCENE = "getStartSceneServlet";
+	public static final String URL_GET_SCENE = "getSceneController";
 	
 	public static OnlineInputOutput getInstance(){
 		if(instance == null){
@@ -128,7 +131,7 @@ public class OnlineInputOutput {
 		return result;
 	}
 	
-	public String sendScene(String URL, String map, String host, String name){
+	public String sendPreScene(String URL, String map, String user, String name){
 		HttpURLConnection connection = null;
 		String result = "";
 		try {
@@ -138,7 +141,7 @@ public class OnlineInputOutput {
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("map", map);
-			connection.setRequestProperty("host", host);
+			connection.setRequestProperty("user", user);
 			connection.setRequestProperty("name", name);
 			connection.setDoInput(true);
 			connection.setDoOutput(true);
@@ -196,7 +199,7 @@ public class OnlineInputOutput {
 		return result;
 	}
 	
-	public String sendDataPackage(Serializable dataPackage, String URL){
+	public String sendDataPackage(String URL, Serializable dataPackage){
 		HttpURLConnection connection = null;
 		String result = "";
 		try {
