@@ -107,13 +107,11 @@ public class GameBuilder {
 		for(PlayerData playerData: gameState.getSceneData().getPlayerDataList()){
 			
 			String name = playerData.getName();
-			boolean isIA = playerData.isIA();
 			int flag = playerData.getFlag();
 			int capitalkingdom = playerData.getCapitalKingdom();
 			int gold = playerData.getGold();
 			
-			ActionIA actionIA = isIA?new ActionIA():null;
-			Player player = new Player(name, actionIA, flag, capitalkingdom);
+			Player player = new Player(name, null, flag, capitalkingdom);
 			player.setGold(gold);
 			
 			for(KingdomData kingdomData : playerData.getKingdomList()){
@@ -159,7 +157,7 @@ public class GameBuilder {
 			pd.setGold(p.getGold());
 			pd.setCapitalKingdom(p.getCapitalkingdom() != null ? p.getCapitalkingdom().getId(): -1);
 			pd.setFlag(p.getFlag());
-			pd.setIA(p.getActionIA() != null);
+			pd.setIA(false);
 			
 			//Add army list to player object
 			List<ArmyData> adList = new ArrayList<ArmyData>();

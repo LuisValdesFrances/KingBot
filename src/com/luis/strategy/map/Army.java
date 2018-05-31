@@ -38,6 +38,10 @@ public class Army extends MapObject{
 		this.kingdom = kingdom;
 		this.lastKingdom = kingdom;
 		this.flag = flag;
+		
+		if(getPlayer().getActionIA() != null){
+			iaDecision = new IADecision();
+		}
 	}
 	
 	public void initTroops() {
@@ -187,8 +191,8 @@ public class Army extends MapObject{
 		return iaDecision;
 	}
 
-	public void setIaDecision(IADecision iaDecision) {
-		this.iaDecision = iaDecision;
+	public void createIADecision() {
+		this.iaDecision = new IADecision();
 	}
 
 	public static int getIdCount() {

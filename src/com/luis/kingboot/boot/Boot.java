@@ -1,5 +1,6 @@
 package com.luis.kingboot.boot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sun.management.counter.perf.PerfLongArrayCounter;
@@ -14,10 +15,12 @@ import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.SceneListData;
 import com.luis.strategy.map.ActionIA;
 import com.luis.strategy.map.Army;
+import com.luis.strategy.map.Army.IADecision;
 import com.luis.strategy.map.GameScene;
 import com.luis.strategy.map.Kingdom;
 import com.luis.strategy.map.Player;
 import com.luis.strategy.map.Terrain;
+import com.luis.strategy.map.Troop;
 
 public class Boot extends Thread{
 	
@@ -120,6 +123,14 @@ public class Boot extends Thread{
 		
 		Player player = gameScene.getPlayerList().get(gameScene.getPlayerIndex());
 		
+		//Activo la IA
+		ActionIA ia = new ActionIA();
+		ia.setPlayer(player);
+		player.setActionIA(ia);
+		for(Army a: player.getArmyList()){
+			a.createIADecision();
+		}
+		
 		//Caluculo de la economia
 		int tax = player.getTaxes();
 		//Calculo de salarios
@@ -128,23 +139,13 @@ public class Boot extends Thread{
 		
 		
 		for(Army army : player.getArmyList()){
-			
 			player.getActionIA().buildDecision(gameScene.getPlayerList(), army);
 			
-			if(army.getIaDecision().getDecision() != ActionIA.DECISION_ATACK){
+			if(army.getIaDecision().getDecision() != ActionIA.DECISION_NONE){
+				
+				resolveMovement(gameScene.getPlayerList(), player, army);
 				
 			}
-			if(army.getIaDecision().getDecision() != ActionIA.DECISION_MOVE){
-				
-			}
-			else if(army.getIaDecision().getDecision() != ActionIA.DECISION_MOVE){
-				
-			}
-			else if(army.getIaDecision().getDecision() != ActionIA.DECISION_MOVE_AND_ATACK){
-				
-			}
-			
-			
 			
 		}
 	}
@@ -177,10 +178,6 @@ public class Boot extends Thread{
 		 * El ejercito ganador genera la mitad de su valor en daño al ejercito perdedor
 		 * El ejercito perdedor genera la la cuarta parte de su daño al ejercito ganador
 		 */
-		boolean showResultBox = 
-				selectedArmy.getPlayer().getActionIA() == null ||
-				(enemy != null && enemy.getPlayer().getActionIA() == null);
-		
 		boolean changeCapital = false;
 		boolean deletePlayer = false;
 		
@@ -211,36 +208,35 @@ public class Boot extends Thread{
 		//Hay ejercito enemigo
 		if(enemy != null){
 			//Resolucion del combate
-			Army defeated = null;
 			if(result > 1)
-				defeated = getEnemyAtKingdom(playerList, player);
+				defeatArmy = getEnemyAtKingdom(playerList, player);
 			else
-				defeated = selectedArmy;
+				defeatArmy = selectedArmy;
 			
 			//Comparo si alguno de los territorios adyacentes pertenece al derrotado
-			Kingdom defeatTarget = getBorderKingdom(playerList, defeated);
+			Kingdom defeatTarget = getBorderKingdom(playerList, defeatArmy);
 			
 			
 			boolean aniquilation = 
-				(result == 3 && defeated.getPlayer().getId() != player.getId())
+				(result == 3 && defeatArmy.getPlayer().getId() != player.getId())
 				||
-				(result == 0 && defeated.getPlayer().getId() == player.getId());
+				(result == 0 && defeatArmy.getPlayer().getId() == player.getId());
 			
 			if(defeatTarget == null || aniquilation){
 				
-				defeated.setDefeat(true);
+				defeatArmy.setDefeat(true);
 				//Masacre al defensor
-				if(defeated.getPlayer().getId() != player.getId()){
+				if(defeatArmy.getPlayer().getId() != player.getId()){
 					attackerHasDestroyed = true;
-					textB = "ATACKER HAS DESTROYED";
+					textB = "ATTACKER HAS DESTROYED";
 				}
 				//Masacrea al atacante
 				else{
 					arrackerHasBeendestroyed = true;
-					textB = "ATACKER HAS BEEN DESTROYED";
+					textB = "ATTACKER HAS BEEN DESTROYED";
 				}
 			}else{
-				defeated.setDefeat(true);
+				defeatArmy.setDefeat(true);
 				//Daño
 				int casualtiesFromArmy = 0;
 				int casualtiesFromEnemy = 0;
@@ -254,12 +250,12 @@ public class Boot extends Thread{
 				selectedArmy.setDamage(casualtiesFromEnemy);
 				enemy.setDamage(casualtiesFromArmy);
 				textB = 
-						"ATACKER LOST" + " " +
+						"ATTACKER LOST" + " " +
 						casualtiesFromEnemy + " " + "LOSSES" + " " +
 						"DEFENDER LOST" + " " +
 						casualtiesFromArmy + " " + "LOSSES";
 				
-				if(defeated.getPlayer().getId() != player.getId()){
+				if(defeatArmy.getPlayer().getId() != player.getId()){
 					attackerWins = true;
 				}else{
 					attackerLost = true;
@@ -309,53 +305,47 @@ public class Boot extends Thread{
 		
 		
 		if(attackerWins){
-			String message = RscManager.allText[RscManager.TXT_GAME_ATTACKER_WINS];
+			String message = "ATTACKER WINS";
 			
-			if(enemy != null)
-				dataSender.addNotification(enemy.getPlayer().getName(), message);
+			if(enemy != null){
+				//dataSender.addNotification(enemy.getPlayer().getName(), message);
+			}
 		}
 		if(attackerLost){
-			String message = RscManager.allText[RscManager.TXT_GAME_ATTACKER_DEFEAT];
-			if(enemy != null)
-				dataSender.addNotification(enemy.getPlayer().getName(), message);
+			String message =  "ATTACKER DEFEAT";
+			if(enemy != null){
+				//dataSender.addNotification(enemy.getPlayer().getName(), message);
+			}
 		}
 		if(attackerHasDestroyed){
-			String message = RscManager.allText[RscManager.TXT_GAME_ATTACKER_HAS_DESTROYED];
-			if(enemy != null)
-				dataSender.addNotification(enemy.getPlayer().getName(), message);
+			String message =  "ATTACKER HAS DESTROYED";
+			if(enemy != null){
+				//dataSender.addNotification(enemy.getPlayer().getName(), message);
+			}
 		}
 		if(arrackerHasBeendestroyed){
-			String message = RscManager.allText[RscManager.TXT_GAME_ATTACKER_HAS_BEEN_DESTROYED];
-			if(enemy != null)
-				dataSender.addNotification(enemy.getPlayer().getName(), message);
+			String message =  "ATTACKER HAS BEEN DESTROYED";
+			if(enemy != null){
+				//dataSender.addNotification(enemy.getPlayer().getName(), message);
+			}
 		}
 		
 		if(changeCapital){
-			String message = 
-					RscManager.allText[RscManager.TXT_GAME_PLAYER] + defeatPlayer.getName() +
-					RscManager.allText[RscManager.TXT_GAME_CHANGE_HIS_CAPITAL];
-			NotificationBox.getInstance().addMessage(message);
-			
-			message = 
-					RscManager.allText[RscManager.TXT_GAME_CHANGE_HIS_CAPITAL];
-			dataSender.addNotification(defeatPlayer.getName(), message);
+			String message = "CHANGE HIS CAPITAL";
+			//dataSender.addNotification(defeatPlayer.getName(), message);
 			
 		}
 		if(deletePlayer){
-			String message = 
-					RscManager.allText[RscManager.TXT_GAME_PLAYER] + " " + defeatPlayer.getName() +
-					RscManager.allText[RscManager.TXT_GAME_LOST_GAME];
-			NotificationBox.getInstance().addMessage(message);
-			
-			message = 
-					RscManager.allText[RscManager.TXT_GAME_YOU_LOST_GAME];
-			dataSender.addNotification(defeatPlayer.getName(), message);
+			String message = "YOU LOST THE GAME";
+			//dataSender.addNotification(defeatPlayer.getName(), message);
 		}
 		
 		
 		
 		if(defeatArmy != null){
-			changeSubState(SUB_STATE_ACTION_SCAPE);
+			Kingdom defeatTarget = getBorderKingdom(playerList, defeatArmy);
+			putArmyAtKingdom(defeatArmy, defeatTarget);
+			resolveScape(playerList, player, defeatArmy);
 		}
 	}
 	
@@ -433,6 +423,100 @@ public class Boot extends Thread{
 		}
 		
 		player.getKingdomList().add(kingdom);
+	}
+	
+	
+	private void resolveMovement(List<Player> playerList, Player player, Army selectedArmy){
+		//getSelectedArmy().setX(getSelectedArmy().getKingdom().getX());
+		//getSelectedArmy().setY(getSelectedArmy().getKingdom().getY());
+		
+		//Si tengo un ejercito en la zona y no soy yo ese ejercito me uno
+		List <Army> armyFiendList = new ArrayList<Army>();
+		for(int i = 0; i < player.getArmyList().size(); i++){
+			if(player.getArmyList().get(i).getKingdom().getId() == selectedArmy.getKingdom().getId()){
+				armyFiendList.add(player.getArmyList().get(i));
+			}
+		}
+		if(armyFiendList.size() > 1){
+			int cost = join(playerList, armyFiendList.get(0), armyFiendList.get(1));
+			
+			if(cost > 0){
+				player.setGold(player.getGold()+cost);
+			}
+		
+		}else{
+			//Si hay un ejercito enemigo
+			if(getEnemyAtKingdom(playerList, player) != null){
+				
+				combat(playerList, player, selectedArmy.getKingdom().getTerrainList().get(0), 
+						selectedArmy,
+						getEnemyAtKingdom(playerList, player));
+			}else{
+				//Si el territorio es mio
+				if(!player.hasKingom(selectedArmy.getKingdom())){
+					//Si es la IA, solo se muestra la ventana de combate si se va a producir un combate
+					if(
+						selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_ATACK
+						||
+						selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE_AND_ATACK
+					){
+						combat(playerList, player, selectedArmy.getKingdom().getTerrainList().get(0), selectedArmy, null);
+					}
+				}
+			}
+		}
+	}
+	
+	private void resolveScape(List<Player> playerList, Player player, Army defeatArmy){
+		//defeat.setX(defeat.getKingdom().getX());
+		//defeat.setY(defeat.getKingdom().getY());
+		defeatArmy.getKingdom().setTarget(-1);
+		
+		//Si hay un ejercito amigo, se unen
+		//Si tengo un ejercito en la zona y no soy yo ese ejercito me uno
+		List <Army> armyFiendList = new ArrayList<Army>();
+		for(int i = 0; i < defeatArmy.getPlayer().getArmyList().size(); i++){
+			if(defeatArmy.getPlayer().getArmyList().get(i).getKingdom().getId() == defeatArmy.getKingdom().getId()){
+				armyFiendList.add(defeatArmy.getPlayer().getArmyList().get(i));
+			}
+		}
+		if(armyFiendList.size() > 1){
+			int cost = join(playerList, armyFiendList.get(0), armyFiendList.get(1));
+			defeatArmy.getPlayer().setGold(player.getGold()+cost);
+		}
+	}
+	
+	private int join(List<Player> playerList, Army army1, Army army2){
+		int cost = 0;
+		for(Troop troop : army2.getTroopList()){
+			if(army1.getTroopList().size() < GameParams.MAX_NUMBER_OF_TROOPS){
+				troop.setSubject(false);
+				army1.getTroopList().add(troop);
+			}else{
+				cost += GameParams.TROOP_COST[troop.getType()]/2;
+			}
+		}
+		army1.setSelected(true);
+		army1.setDefeat(army1.isDefeat() || army2.isDefeat());
+		removeArmy(playerList, army2);
+		
+		return cost;
+	}
+	
+	private void removeArmy(List<Player> playerList, Army army){
+		for(Player player: playerList){
+			for(int i = 0; i < player.getArmyList().size(); i++){
+				if(player.getArmyList().get(i).getId() == army.getId()){
+					player.getArmyList().remove(i);
+					break;
+				}
+			}
+		}
+	}
+	
+	private void putArmyAtKingdom(Army army, Kingdom newKingdom){
+		army.setLastKingdom(army.getKingdom());
+		army.setKingdom(newKingdom);
 	}
 
 }

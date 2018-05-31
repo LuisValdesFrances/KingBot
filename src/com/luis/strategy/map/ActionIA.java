@@ -10,6 +10,7 @@ public class ActionIA {
 	
 	private Player player;
 	
+	
 	public static final int DECISION_NONE = 0;//No hace nada
 	public static final int DECISION_ATACK = 1;//Continua con la conquista
 	public static final int DECISION_MOVE = 2;//Mueve solamente
