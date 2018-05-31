@@ -129,7 +129,7 @@ public class ActionIA {
 		}while(player.getGold() < 0);
 	}
 	
-	private void buildDecision(List<Player> playerList, Army army) {
+	public void buildDecision(List<Player> playerList, Army army) {
 		
 		if(army != null){
 			// Orden de prioridades
