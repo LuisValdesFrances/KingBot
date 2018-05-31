@@ -1,8 +1,9 @@
 package com.luis.kingboot.boot;
 
 import com.luis.kingboot.connection.OnlineInputOutput;
+import com.luis.kingboot.main.GameState;
 import com.luis.kingboot.main.Main;
-import com.luis.strategy.datapackage.scene.PreSceneData;
+import com.luis.strategy.data.GameBuilder;
 import com.luis.strategy.datapackage.scene.PreSceneListData;
 import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.SceneListData;
@@ -32,8 +33,6 @@ public class Boot extends Thread{
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			
-			
 		}
 	}
 	
@@ -55,30 +54,44 @@ public class Boot extends Thread{
 	}
 	
 	private void play(){
+		//recivo todas las partidas en las que participo
 		SceneListData sceneListData = OnlineInputOutput.getInstance().reviceSceneListData(name);
 		for(SceneData sceneData : sceneListData.getSceneDataList()){
-			
+			//Si el siguiente jugador soy yo:
 			if(sceneData.getNextPlayer().equals(name)){
 				int playerIndex = sceneData.getPlayerIndex();
 				
-				SceneData sd = null;
-					if(sceneData.getState() == 0){
-						sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_START_SCENE, ""+sceneData.getId());
-					}else{
-						sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_SCENE, ""+sceneData.getId());
-					}
-				do{
-					playerIndex = playerIndex+1%sd.getPlayerDataList().size();
+				//Cargo la partida
+				GameState gameState = new GameState();
+				if(sceneData.getState() == 0){
+					SceneData sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_START_SCENE, ""+sceneData.getId());
+					gameState.init(GameState.GAME_MODE_ONLINE, sd);
+					gameState.setGameScene(GameBuilder.getInstance().buildStartGameScene(gameState));
+				}else{
+					SceneData sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_SCENE, ""+sceneData.getId());
+					gameState.init(GameState.GAME_MODE_ONLINE, sd);
+					gameState.setGameScene(GameBuilder.getInstance().buildGameScene(gameState));
 				}
-				while(sd.getPlayerDataList().get(playerIndex).getCapitalKingdom() == -1);
-				sd.setState(1);
-				sd.setPlayerIndex(playerIndex);
-				sd.setNextPlayer(sd.getPlayerDataList().get(sd.getPlayerIndex()).getName());
+				do{
+					playerIndex = playerIndex+1%gameState.getGameScene().getPlayerList().size();
+				}
+				while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
+				
+				if(playerIndex==0){
+					gameState.getGameScene().setTurnCount(gameState.getGameScene().getTurnCount()+1);
+				}
+				gameState.getGameScene().setPlayerIndex(playerIndex);
+				
+				
+				SceneData sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
 				OnlineInputOutput.getInstance().sendDataPackage(OnlineInputOutput.URL_UPDATE_SCENE, sd);
 				
-				if(playerIndex==0)
-					sceneData.setTurnCount(sceneData.getTurnCount()+1);
-				System.out.println("Boot " + name + " has responded game");
+				OnlineInputOutput.getInstance().sendNotifiation(
+						OnlineInputOutput.URL_CREATE_NOTIFICATION, 
+						"" + gameState.getSceneData().getId(), 
+						name, 
+						" TURN: " + gameState.getGameScene().getTurnCount());
+				System.out.println(name + " has responded game");
 			}
 		}
 		
