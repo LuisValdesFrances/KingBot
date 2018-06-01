@@ -22,6 +22,16 @@ public class DataKingdom {
 		{{1,2}, {7,8}, {3,4}},
 		};
 	
+	public static final String[] SCENARY_NAME_LIST = new String[]{
+		"OCCITANE", 
+		"SIX KINGDOMS",
+		"TEST 3 PLAY",
+		"TEST 2x2",
+		"TEST 4x4",
+		"TEST 8x8",
+		"TEST 16x16"
+	};
+	
 	public static List<Kingdom> getGenterex(MapObject map){
 		
 		List<Kingdom> kingdomList = new ArrayList<Kingdom>();

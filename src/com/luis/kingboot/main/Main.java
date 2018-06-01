@@ -7,6 +7,13 @@ import com.luis.kingboot.boot.Boot;
 
 
 public class Main {
+	
+	/*
+	delete from notification;
+	delete from rel_pre_scene_users;
+	delete from scene;
+	delete from pre_scene;
+	 */
 
 	private static Object mutex;
 	public static void main(String[] args) {

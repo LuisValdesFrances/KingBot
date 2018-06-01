@@ -149,7 +149,7 @@ public class ActionIA {
 					if (army.getPower(k.getTerrainList().get(0)) > enemy.getPower(k.getTerrainList().get(0))) {
 						//Si mi fuerza es mayor, hay un 70% de pos de atacar
 						int r = getRandom(0, 100);
-						if(r >= 75){
+						if(r <= 75){
 							army.getIaDecision().setDecision(DECISION_MOVE_AND_ATACK);
 							army.getIaDecision().setKingdomDecision(k.getId());
 						return;
@@ -228,38 +228,12 @@ public class ActionIA {
 		}
 	}
 	
-	public boolean isKingdomToMove(GameScene map, Kingdom kingdom){
-		
-		switch(getSelectedArmy().getIaDecision().getDecision()){
-			case DECISION_ATACK:
-				return getSelectedArmy().getKingdom().getId() == kingdom.getId();
-			
-			case DECISION_MOVE:
-			case DECISION_MOVE_AND_ATACK:
-				return getSelectedArmy().getIaDecision().getKingdomDecision() == kingdom.getId();
-			default:
-				int r = getRandom(0, getSelectedArmy().getKingdom().getBorderList().size()-1);
-				return getSelectedArmy().getKingdom().getBorderList().get(r).getId() == kingdom.getId();
-		}
-	}
-
 	public Player getPlayer() {
 		return player;
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
-	}
-	
-	private Army getSelectedArmy(){
-		Army selected = null;
-		for(Army army : player.getArmyList()){
-			if(army.isSelected()){
-				selected = army;
-				break;
-			}
-		}
-		return selected;
 	}
 	
 	/**
