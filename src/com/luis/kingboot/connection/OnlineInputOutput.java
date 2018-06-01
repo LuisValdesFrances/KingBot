@@ -63,7 +63,7 @@ public class OnlineInputOutput {
 			}
 			in.close();
 
-			System.out.println(result);
+			//System.out.println(result);
 			connection.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,7 +122,7 @@ public class OnlineInputOutput {
 			}
 			in.close();
 
-			System.out.println(result);
+			//System.out.println(result);
 			connection.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -156,7 +156,7 @@ public class OnlineInputOutput {
 			}
 			in.close();
 
-			System.out.println(result);
+			//System.out.println(result);
 			connection.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,7 +190,7 @@ public class OnlineInputOutput {
 			}
 			in.close();
 
-			System.out.println(result);
+			//System.out.println(result);
 			connection.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -228,7 +228,7 @@ public class OnlineInputOutput {
 			}
 			in.close();
 
-			System.out.println(result);
+			//System.out.println(result);
 			connection.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();

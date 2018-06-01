@@ -1,8 +1,6 @@
-package com.luis.kingboot.boot;
+package com.luis.kingboot.main;
 
 import com.luis.kingboot.connection.OnlineInputOutput;
-import com.luis.kingboot.main.GameState;
-import com.luis.kingboot.main.Main;
 import com.luis.strategy.data.GameBuilder;
 import com.luis.strategy.datapackage.scene.PreSceneListData;
 import com.luis.strategy.datapackage.scene.SceneData;
@@ -92,9 +90,9 @@ public class Boot extends Thread{
 				SceneData sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
 				OnlineInputOutput.getInstance().sendDataPackage(OnlineInputOutput.URL_UPDATE_SCENE, sd);
 				
+				String message = "TURN:" + (gameState.getGameScene().getTurnCount()+1);
 				playTurn.sendNotification(gameState, 
-						gameState.getGameScene().getPlayerList().get(playerIndex).getName(), 
-						"TURN:" + gameState.getGameScene().getTurnCount());
+						gameState.getGameScene().getPlayerList().get(playerIndex).getName(), message);
 				
 				System.out.println(name + " has responded game");
 			}

@@ -33,17 +33,6 @@ public class Player {
 		}
 	}
 	
-	public Army getSelectedArmy(){
-		Army selected = null;
-		for(Army army : getArmyList()){
-			if(army.isSelected()){
-				selected = army;
-				break;
-			}
-		}
-		return selected;
-	}
-	
 	public boolean hasKingom(Kingdom kingdom){
 		boolean k = false;
 		for(int i = 0; !k && i < kingdomList.size(); i++){

@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.luis.kingboot.boot.Boot;
-
 
 public class Main {
 	

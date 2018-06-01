@@ -1,11 +1,9 @@
-package com.luis.kingboot.boot;
+package com.luis.kingboot.main;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.luis.kingboot.connection.OnlineInputOutput;
-import com.luis.kingboot.main.GameState;
-import com.luis.kingboot.main.Main;
 import com.luis.strategy.constants.GameParams;
 import com.luis.strategy.data.DataKingdom;
 import com.luis.strategy.map.ActionIA;
@@ -40,23 +38,23 @@ public class PlayTurn {
 			management(gameState.getGameScene().getMapObject(), 
 			gameState.getGameScene().getPlayerList());
 		
-		for(Army army : player.getArmyList()){
+		for(Army selectedArmy : player.getArmyList()){
 			player.getActionIA().buildDecision(
-					gameState.getGameScene().getPlayerList(), army);
+					gameState.getGameScene().getPlayerList(), selectedArmy);
 			
-			if(army.getIaDecision().getDecision() != ActionIA.DECISION_NONE){
+			if(selectedArmy.getIaDecision().getDecision() != ActionIA.DECISION_NONE){
 				
 				if(
-						army.getIaDecision().getDecision() == ActionIA.DECISION_MOVE ||
-						army.getIaDecision().getDecision() == ActionIA.DECISION_MOVE_AND_ATACK){
+						selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE ||
+						selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE_AND_ATACK){
 					
 					for(Kingdom k : gameState.getGameScene().getKingdomList()){
-						if(k.getId() == army.getIaDecision().getKingdomDecision()){
-							putArmyAtKingdom(army, k);
+						if(k.getId() == selectedArmy.getIaDecision().getKingdomDecision()){
+							putArmyAtKingdom(selectedArmy, k);
 						}
 					}
 				}
-				resolveMovement(gameState, player, army);
+				resolveMovement(gameState, player, selectedArmy);
 			}
 		}
 	}
@@ -83,7 +81,7 @@ public class PlayTurn {
 		boolean removeArmy = false;
 		Player defeatPlayer = null;
 		Army defeatArmy = null;
-		Army enemy = getEnemyAtKingdom(playerList, player);
+		Army enemy = getEnemyAtKingdom(playerList, player, selectedArmy);
 		
 		/*
 		 * El ejercito ganador genera la mitad de su valor en daño al ejercito perdedor
@@ -101,7 +99,7 @@ public class PlayTurn {
 		if(enemy != null){
 			//Resolucion del combate
 			if(result > 1)
-				defeatArmy = getEnemyAtKingdom(playerList, player);
+				defeatArmy = getEnemyAtKingdom(playerList, player, selectedArmy);
 			else
 				defeatArmy = selectedArmy;
 			
@@ -195,43 +193,49 @@ public class PlayTurn {
 			if(enemy != null){
 				//dataSender.addNotification(enemy.getPlayer().getName(), message);
 				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				System.out.println(message);
 			}
 		}
 		if(attackerLost){
 			String message =  "ATTACKER DEFEAT";
 			if(enemy != null){
 				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				System.out.println(message);
 			}
 		}
 		if(attackerHasDestroyed){
 			String message =  "ATTACKER HAS DESTROYED";
 			if(enemy != null){
 				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				System.out.println(message);
 			}
 		}
 		if(arrackerHasBeendestroyed){
 			String message =  "ATTACKER HAS BEEN DESTROYED";
 			if(enemy != null){
 				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				System.out.println(message);
 			}
 		}
 		
 		if(changeCapital){
 			String message = "CHANGE HIS CAPITAL";
 			sendNotification(gameState, defeatPlayer.getName(), message);
+			System.out.println(message);
 			
 		}
 		if(deletePlayer){
 			String message = "YOU LOST THE GAME";
 			sendNotification(gameState, defeatPlayer.getName(), message);
+			System.out.println(message);
 		}
 		
 		if(removeArmy){
 			removeArmy(playerList, defeatArmy);
-		}
-		
-		if(defeatArmy != null){
-			resolveScape(playerList, player, defeatArmy);
+		}else{
+			if(defeatArmy != null){
+				resolveScape(playerList, player, defeatArmy);
+			}
 		}
 	}
 	
@@ -247,9 +251,9 @@ public class PlayTurn {
 		return value;
 	}
 	
-	private Army getEnemyAtKingdom(List<Player> playerList, Player player){
-		if(player.getSelectedArmy() != null){
-			Kingdom kingdom = player.getSelectedArmy().getKingdom();
+	private Army getEnemyAtKingdom(List<Player> playerList, Player player, Army selectedArmy){
+		if(selectedArmy != null){
+			Kingdom kingdom = selectedArmy.getKingdom();
 			return getEnemyAtKingdom(playerList, player, kingdom);
 		}else{
 			return null;
@@ -334,15 +338,14 @@ public class PlayTurn {
 		
 		}else{
 			//Si hay un ejercito enemigo
-			if(getEnemyAtKingdom(playerList, player) != null){
+			if(getEnemyAtKingdom(playerList, player, selectedArmy) != null){
 				
 				combat(gameState, playerList, player, selectedArmy.getKingdom().getTerrainList().get(0), 
 						selectedArmy,
-						getEnemyAtKingdom(playerList, player));
+						getEnemyAtKingdom(playerList, player, selectedArmy));
 			}else{
-				//Si el territorio es mio
+				//Si no el territorio es mio
 				if(!player.hasKingom(selectedArmy.getKingdom())){
-					//Si es la IA, solo se muestra la ventana de combate si se va a producir un combate
 					if(
 						selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_ATACK
 						||
