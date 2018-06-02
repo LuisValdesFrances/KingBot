@@ -26,8 +26,7 @@ public class Boot extends Thread{
 			try{
 				createScenary();
 				play();
-				
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -57,6 +56,14 @@ public class Boot extends Thread{
 		for(SceneData sceneData : sceneListData.getSceneDataList()){
 			//Si el siguiente jugador soy yo:
 			if(sceneData.getNextPlayer().equals(name)){
+				
+				//espero un poco (Tema de notificaciones)
+				try{
+					Thread.sleep(3000);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				
 				int playerIndex = sceneData.getPlayerIndex();
 				
 				PlayTurn playTurn = null;
@@ -72,6 +79,9 @@ public class Boot extends Thread{
 					gameState.init(GameState.GAME_MODE_ONLINE, sd);
 					gameState.setGameScene(GameBuilder.getInstance().buildGameScene(gameState));
 				}
+				
+				System.err.println("\nTurn " + sceneData.getTurnCount() + " for " + sceneData.getNextPlayer());
+				
 				
 				playTurn = new PlayTurn();
 				playTurn.play(gameState);
@@ -90,9 +100,11 @@ public class Boot extends Thread{
 				SceneData sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
 				OnlineInputOutput.getInstance().sendDataPackage(OnlineInputOutput.URL_UPDATE_SCENE, sd);
 				
+				/*
 				String message = "TURN:" + (gameState.getGameScene().getTurnCount()+1);
 				playTurn.sendNotification(gameState, 
 						gameState.getGameScene().getPlayerList().get(playerIndex).getName(), message);
+				*/
 				
 				System.out.println(name + " has responded game");
 			}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.luis.kingboot.connection.OnlineInputOutput;
 import com.luis.strategy.constants.GameParams;
-import com.luis.strategy.data.DataKingdom;
+import com.luis.strategy.datapackage.scene.KingdomData;
 import com.luis.strategy.map.ActionIA;
 import com.luis.strategy.map.Army;
 import com.luis.strategy.map.Kingdom;
@@ -16,6 +16,15 @@ import com.luis.strategy.map.Troop;
 public class PlayTurn {
 	
 	public void play(GameState gameState) {
+		
+		String infoList = "";
+		for(Player p : gameState.getGameScene().getPlayerList()){
+			infoList += ("\n" + p.getName() + " Kingdom's: ");
+			for(Kingdom k : p.getKingdomList()){
+				infoList+=(k.getId() + " - ");
+			}
+		}
+		System.out.println(infoList);
 		
 		Player player = 
 				gameState.getGameScene().getPlayerList().get(gameState.getGameScene().getPlayerIndex());
@@ -178,55 +187,46 @@ public class PlayTurn {
 		}
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		if(attackerWins){
-			String message = "ATTACKER WINS";
+			String message = "Attacker win";
 			
 			if(enemy != null){
 				//dataSender.addNotification(enemy.getPlayer().getName(), message);
-				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message);
 				System.out.println(message);
 			}
 		}
 		if(attackerLost){
-			String message =  "ATTACKER DEFEAT";
+			String message =  "Attacker loses";
 			if(enemy != null){
-				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message);
 				System.out.println(message);
 			}
 		}
 		if(attackerHasDestroyed){
-			String message =  "ATTACKER HAS DESTROYED";
+			String message =  "The attacker has destroyed the enemy";
 			if(enemy != null){
-				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message);
 				System.out.println(message);
 			}
 		}
 		if(arrackerHasBeendestroyed){
-			String message =  "ATTACKER HAS BEEN DESTROYED";
+			String message =  "The attacker has been destroyed";
 			if(enemy != null){
-				sendNotification(gameState, enemy.getPlayer().getName(), message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message);
 				System.out.println(message);
 			}
 		}
 		
 		if(changeCapital){
-			String message = "CHANGE HIS CAPITAL";
-			sendNotification(gameState, defeatPlayer.getName(), message);
+			String message = "change his capital";
+			sendNotification(gameState, player.getName(), defeatPlayer.getName(), message);
 			System.out.println(message);
 			
 		}
 		if(deletePlayer){
-			String message = "YOU LOST THE GAME";
-			sendNotification(gameState, defeatPlayer.getName(), message);
+			String message = "lost the game";
+			sendNotification(gameState, player.getName(), defeatPlayer.getName(), message);
 			System.out.println(message);
 		}
 		
@@ -364,11 +364,6 @@ public class PlayTurn {
 		putArmyAtKingdom(defeatArmy, defeatTarget);
 		
 		
-		//defeat.setX(defeat.getKingdom().getX());
-		//defeat.setY(defeat.getKingdom().getY());
-		defeatArmy.getKingdom().setTarget(-1);
-		
-		//Si hay un ejercito amigo, se unen
 		//Si tengo un ejercito en la zona y no soy yo ese ejercito me uno
 		List <Army> armyFiendList = new ArrayList<Army>();
 		for(int i = 0; i < defeatArmy.getPlayer().getArmyList().size(); i++){
@@ -416,16 +411,12 @@ public class PlayTurn {
 	}
 	
 	//Notifications
-	public void sendNotification(GameState gameState, String user, String message){
-	String msg = 
-			gameState.getSceneData().getId() + "-" +
-			DataKingdom.SCENARY_NAME_LIST[gameState.getMap()] + " " + message;
-	
-	OnlineInputOutput.getInstance().sendNotifiation(
-			OnlineInputOutput.URL_CREATE_NOTIFICATION, 
-			""+gameState.getSceneData().getId(), 
-			user, 
-			msg);
+	public void sendNotification(GameState gameState, String from, String to, String message){
+		
+		String msg = from + " - " + message;
+		
+		OnlineInputOutput.getInstance().sendNotifiation(
+			OnlineInputOutput.URL_CREATE_NOTIFICATION, "" + gameState.getSceneData().getId(), to, msg);
 	}
 
 }
