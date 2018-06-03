@@ -10,7 +10,6 @@ import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.KingdomData;
 import com.luis.strategy.datapackage.scene.PlayerData;
 import com.luis.strategy.datapackage.scene.TroopData;
-import com.luis.strategy.map.ActionIA;
 import com.luis.strategy.map.Army;
 import com.luis.strategy.map.GameScene;
 import com.luis.strategy.map.Kingdom;
@@ -33,15 +32,7 @@ public class GameBuilder {
 	public GameScene buildStartGameScene(GameState gameState){
 		GameScene gameScene = new GameScene(gameState.getMap());
 
-		switch (gameState.getMap()) {
-		case 0:
-		case 2:
-			gameScene.setKingdomList(DataKingdom.getGenterex(gameScene.getMapObject()));
-			break;
-		case 1:
-			gameScene.setKingdomList(DataKingdom.getCrom(gameScene.getMapObject()));
-			break;
-		}
+		gameScene.setKingdomList(DataKingdom.getMap(gameScene.getMapObject(), gameState.getMap()));
 		
 		List<Player> playerList = new ArrayList<Player>();
 		
@@ -49,7 +40,6 @@ public class GameBuilder {
 			PlayerData playerData =  gameState.getSceneData().getPlayerDataList().get(i);
 			
 			int k1 = DataKingdom.INIT_MAP_DATA[gameState.getMap()][i][0];
-			int k2 = DataKingdom.INIT_MAP_DATA[gameState.getMap()][i][1];
 			
 			Player player = new Player(
 					playerData.getName(), 
@@ -59,7 +49,6 @@ public class GameBuilder {
 			
 			player.setGold(GameParams.START_GOLD);
 			player.getKingdomList().add(gameScene.getKingdom(k1));
-			player.getKingdomList().add(gameScene.getKingdom(k2));
 			
 			Army army = new Army(
 					gameScene.getMapObject(), player, gameScene.getKingdom(k1), player.getFlag());
@@ -94,15 +83,7 @@ public class GameBuilder {
 		
 		List<Player>playerList = new ArrayList<Player>();
 		
-		switch(gameState.getMap()){
-    	case 0:
-    	case 2:
-    		gameScene.setKingdomList(DataKingdom.getGenterex(gameScene.getMapObject()));
-            break;
-    	case 1:
-    		gameScene.setKingdomList(DataKingdom.getCrom(gameScene.getMapObject()));
-    		break;
-    	}
+		gameScene.setKingdomList(DataKingdom.getMap(gameScene.getMapObject(), gameState.getMap()));
 		
 		for(PlayerData playerData: gameState.getSceneData().getPlayerDataList()){
 			

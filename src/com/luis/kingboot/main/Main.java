@@ -17,9 +17,12 @@ public class Main {
 	public static void main(String[] args) {
 		mutex = new Object();
 		List<Boot> bootList = new ArrayList<Boot>();
-		bootList.add(new Boot(mutex, "Super PepeToni"));
-		bootList.add(new Boot(mutex, "Super Cami"));
-		bootList.add(new Boot(mutex, "Don Coco"));
+		bootList.add(new Boot(mutex, "SUPER PEPETONI"));
+		bootList.add(new Boot(mutex, "SUPER CAMI"));
+		bootList.add(new Boot(mutex, "DON COCO"));
+		bootList.add(new Boot(mutex, "BURUFULOT"));
+		bootList.add(new Boot(mutex, "MARIANUFLO"));
+		bootList.add(new Boot(mutex, "XOKOLATE"));
 		
 		for(Boot boot : bootList){
 			boot.start();

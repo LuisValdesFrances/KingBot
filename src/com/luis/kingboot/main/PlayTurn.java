@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.luis.kingboot.connection.OnlineInputOutput;
 import com.luis.strategy.constants.GameParams;
-import com.luis.strategy.datapackage.scene.KingdomData;
 import com.luis.strategy.map.ActionIA;
 import com.luis.strategy.map.Army;
 import com.luis.strategy.map.Kingdom;

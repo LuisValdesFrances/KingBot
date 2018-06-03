@@ -12,7 +12,7 @@ public class Boot extends Thread{
 	private String name;
 	
 	
-	private static final int MAX_PREESCENARI = 3;
+	private static final int MAX_PREESCENARI = 5;
 	
 	public Boot(Object mutex, String name){
 		this.mutex = mutex;
@@ -39,7 +39,7 @@ public class Boot extends Thread{
 			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().reviceAllPreSceneListData(OnlineInputOutput.URL_GET_ALL_PRE_SCENE_LIST);
 			
 			if(preSceneListData.getPreSceneDataList().size() < MAX_PREESCENARI){
-				int map = Main.getRandom(0, 2);
+				int map = Main.getRandom(0, 4);
 				String host = name;
 				String sceneName = "Scene by " + name;
 				
