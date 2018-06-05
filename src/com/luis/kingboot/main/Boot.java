@@ -1,7 +1,9 @@
 package com.luis.kingboot.main;
 
 import com.luis.kingboot.connection.OnlineInputOutput;
+import com.luis.strategy.data.DataKingdom;
 import com.luis.strategy.data.GameBuilder;
+import com.luis.strategy.datapackage.scene.PreSceneData;
 import com.luis.strategy.datapackage.scene.PreSceneListData;
 import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.SceneListData;
@@ -25,6 +27,7 @@ public class Boot extends Thread{
 		while(true){
 			try{
 				createScenary();
+				joinScenary();
 				play();
 				Thread.sleep(3000);
 			}catch(Exception e){
@@ -43,10 +46,46 @@ public class Boot extends Thread{
 				String host = name;
 				String sceneName = "Scene by " + name;
 				
-				OnlineInputOutput.getInstance().sendPreScene("createPreSceneServlet", ""+map, host, sceneName);
+				OnlineInputOutput.getInstance().sendPreScene(""+map, host, sceneName);
 				
 				System.out.println("Boot " + name + " has created a new scene");
 			}
+		}
+	}
+	
+	private void joinScenary(){
+		synchronized (mutex) {
+			
+			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().
+					revicePreSceneListData(OnlineInputOutput.URL_GET_ALL_PRE_SCENE_LIST, name);
+			
+			for(int i = 0; i < preSceneListData.getPreSceneDataList().size(); i++){
+				//Obtengo al usuario que ha creado la escena
+				String author = preSceneListData.getPreSceneDataList().get(i).getHost();
+				
+				//Si es un boot no se une a la partida del boot
+				boolean found = false;
+				for(int j = 0; j < Main.BOOT_NAME_LIST.length && !found; j++){
+					found = author.equals(Main.BOOT_NAME_LIST[j]);
+				}
+				
+				if(found){
+					preSceneListData.getPreSceneDataList().remove(i);
+				}
+			}
+			
+			//Me uno a la partida
+			PreSceneData preSceneData = preSceneListData.getPreSceneDataList().get(0);
+			int insCount = (preSceneData.getPlayerCount()+1);
+			
+			String create = null;
+			if(insCount ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){
+				create = "create";
+				System.out.println("Scene " + preSceneData.getId() + " ya contiene el total de jugadores");
+			}
+			
+			OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, create);
+			
 		}
 	}
 	
