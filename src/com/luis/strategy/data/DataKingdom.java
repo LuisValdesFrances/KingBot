@@ -1188,6 +1188,16 @@ public class DataKingdom {
 		if(k56 != null) kingdomList.add(k56);
 		if(k57 != null) kingdomList.add(k57);
 		
+		// Rastreo null
+		for (int i = 0; i < kingdomList.size(); i++) {
+			for (int j = 0; j < kingdomList.get(i).getBorderList().size(); j++) {
+				if (kingdomList.get(i).getBorderList().get(j) == null) {
+					kingdomList.get(i).getBorderList().remove(j);
+					j--;
+				}
+			}
+		}
+		
 		return kingdomList;
 	}
 
