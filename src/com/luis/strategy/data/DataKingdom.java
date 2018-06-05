@@ -247,6 +247,7 @@ public class DataKingdom {
 			//La posicion del terreno se expresa en porcentajes respecto al ancho y alto del mapa
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
+			terrainList.add(new Terrain(map, GameParams.FOREST, false));
 			terrainList.add(new Terrain(map, GameParams.MONTAIN, false));
 			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
 			k14.setTerrainList(terrainList);
@@ -291,6 +292,7 @@ public class DataKingdom {
 			k19.setName("Lyee");
 			//La posicion del terreno se expresa en porcentajes respecto al ancho y alto del mapa
 			terrainList = new ArrayList<Terrain>();
+			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.FOREST, false));
 			terrainList.add(new Terrain(map,GameParams.SMALL_CITY, false));
