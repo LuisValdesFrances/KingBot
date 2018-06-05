@@ -6,6 +6,15 @@ import java.util.Random;
 
 public class Main {
 	
+	public static final String[] BOOT_NAME_LIST = {
+												"SUPER PEPETONI", 
+												"SUPER CAMI", 
+												"DON COCO", 
+												"BURUFULOT", 
+												"MARIANUFLO", 
+												"XOKOLATE"
+	};
+	
 	/*
 	delete from notification;
 	delete from rel_pre_scene_users;
@@ -17,12 +26,10 @@ public class Main {
 	public static void main(String[] args) {
 		mutex = new Object();
 		List<Boot> bootList = new ArrayList<Boot>();
-		bootList.add(new Boot(mutex, "SUPER PEPETONI"));
-		bootList.add(new Boot(mutex, "SUPER CAMI"));
-		bootList.add(new Boot(mutex, "DON COCO"));
-		bootList.add(new Boot(mutex, "BURUFULOT"));
-		bootList.add(new Boot(mutex, "MARIANUFLO"));
-		bootList.add(new Boot(mutex, "XOKOLATE"));
+		
+		for(String name : BOOT_NAME_LIST){
+			bootList.add(new Boot(mutex, name));
+		}
 		
 		for(Boot boot : bootList){
 			boot.start();
