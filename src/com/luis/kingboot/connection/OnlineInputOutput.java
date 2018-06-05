@@ -20,6 +20,9 @@ public class OnlineInputOutput {
 	
 	private static OnlineInputOutput instance;
 	
+	public static final String URL_CREATE_INSCRIPTION = "createInscriptionServlet";
+	public static final String URL_CREATE_PRE_SCENE = "createPreSceneServlet";
+	
 	public static final String URL_CREATE_NOTIFICATION = "createNotificationServlet";
 	public static final String URL_GET_NOTIFICATION_LIST = "getNotificationListServlet";
 	public static final String URL_UPDATE_NOTIFICATION = "updateNotificationSceneServlet";
@@ -131,12 +134,12 @@ public class OnlineInputOutput {
 		return result;
 	}
 	
-	public String sendPreScene(String URL, String map, String user, String name){
+	public String sendPreScene(String map, String user, String name){
 		HttpURLConnection connection = null;
 		String result = "";
 		try {
 			// open URL connection
-			URL url = new URL(SERVER_URL + URL);
+			URL url = new URL(SERVER_URL + URL_CREATE_PRE_SCENE);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
 			connection.setRequestMethod("POST");
@@ -165,12 +168,12 @@ public class OnlineInputOutput {
 		return result;
 	}
 	
-	public String sendInscription(String URL, String scene, String user, String create){
+	public String sendInscription(String scene, String user, String create){
 		HttpURLConnection connection = null;
 		String result = "";
 		try {
 			// open URL connection
-			URL url = new URL(SERVER_URL + URL);
+			URL url = new URL(SERVER_URL + URL_CREATE_INSCRIPTION);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
 			connection.setRequestMethod("POST");
