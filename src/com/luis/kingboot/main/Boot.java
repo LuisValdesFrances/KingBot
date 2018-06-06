@@ -39,7 +39,7 @@ public class Boot extends Thread{
 	private void createScenary(){
 		synchronized (mutex) {
 			
-			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().reviceAllPreSceneListData(OnlineInputOutput.URL_GET_ALL_PRE_SCENE_LIST);
+			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().reviceAllPreSceneListData();
 			
 			if(preSceneListData.getPreSceneDataList().size() < MAX_PREESCENARI){
 				int map = Main.getRandom(0, 4);
@@ -56,8 +56,7 @@ public class Boot extends Thread{
 	private void joinScenary(){
 		synchronized (mutex) {
 			
-			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().
-					revicePreSceneListData(OnlineInputOutput.URL_GET_ALL_PRE_SCENE_LIST, name);
+			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().revicePreSceneListData(name);
 			
 			for(int i = 0; i < preSceneListData.getPreSceneDataList().size(); i++){
 				//Obtengo al usuario que ha creado la escena
@@ -71,21 +70,24 @@ public class Boot extends Thread{
 				
 				if(found){
 					preSceneListData.getPreSceneDataList().remove(i);
+					i--;
 				}
 			}
 			
 			//Me uno a la partida
-			PreSceneData preSceneData = preSceneListData.getPreSceneDataList().get(0);
-			int insCount = (preSceneData.getPlayerCount()+1);
-			
-			String create = null;
-			if(insCount ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){
-				create = "create";
-				System.out.println("Scene " + preSceneData.getId() + " ya contiene el total de jugadores");
+			if(preSceneListData.getPreSceneDataList().size() > 0){
+				PreSceneData preSceneData = preSceneListData.getPreSceneDataList().get(0);
+				int insCount = (preSceneData.getPlayerCount());
+				
+				String create = null;
+				if(insCount+1 ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){
+					create = "create";
+					System.out.println("Scene " + preSceneData.getId() + " ya contiene el total de jugadores");
+				}
+				
+				System.out.println(name + " se ha unido a la escena " + preSceneData.getId() + " creada por " + preSceneData.getHost());
+				OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, create);
 			}
-			
-			OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, create);
-			
 		}
 	}
 	
@@ -103,7 +105,7 @@ public class Boot extends Thread{
 					e.printStackTrace();
 				}
 				
-				int playerIndex = sceneData.getPlayerIndex();
+				
 				
 				PlayTurn playTurn = null;
 				
@@ -125,8 +127,10 @@ public class Boot extends Thread{
 				playTurn = new PlayTurn();
 				playTurn.play(gameState);
 				
+				int playerIndex = gameState.getGameScene().getPlayerIndex();
+				
 				do{
-					playerIndex = playerIndex+1%gameState.getGameScene().getPlayerList().size();
+					playerIndex = (playerIndex+1)%gameState.getGameScene().getPlayerList().size();
 				}
 				while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
 				

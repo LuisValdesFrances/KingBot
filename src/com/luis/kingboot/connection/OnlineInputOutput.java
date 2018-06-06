@@ -240,13 +240,13 @@ public class OnlineInputOutput {
 		return result;
 	}
 	
-	public PreSceneListData revicePreSceneListData(String URL, String user){
+	public PreSceneListData revicePreSceneListData(String user){
 		PreSceneListData preSceneListData = null;
 		HttpURLConnection connection = null;
 		try {
 			// open URL connection
 			//String encodeUrl = SERVER_URL + URL + URLEncoder.encode("?user=" + user);
-			String encodeUrl = SERVER_URL + URL;
+			String encodeUrl = SERVER_URL + URL_GET_PRE_SCENE_LIST;
 			URL url = new URL(encodeUrl);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
@@ -267,13 +267,13 @@ public class OnlineInputOutput {
 		return preSceneListData;
 	}
 	
-	public PreSceneListData reviceAllPreSceneListData(String URL){
+	public PreSceneListData reviceAllPreSceneListData(){
 		PreSceneListData preSceneListData = null;
 		HttpURLConnection connection = null;
 		try {
 			// open URL connection
 			//String encodeUrl = SERVER_URL + URL + URLEncoder.encode("?user=" + user);
-			String encodeUrl = SERVER_URL + URL;
+			String encodeUrl = SERVER_URL + URL_GET_ALL_PRE_SCENE_LIST;
 			URL url = new URL(encodeUrl);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
