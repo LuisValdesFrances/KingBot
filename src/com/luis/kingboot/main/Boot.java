@@ -125,22 +125,26 @@ public class Boot extends Thread{
 				
 				
 				playTurn = new PlayTurn();
-				playTurn.play(gameState);
+				boolean isFinishGame = playTurn.play(gameState);
 				
-				int playerIndex = gameState.getGameScene().getPlayerIndex();
+				SceneData sd = null;
+				if(!isFinishGame){
+					
+					int playerIndex = gameState.getGameScene().getPlayerIndex();
+					do{
+						playerIndex = (playerIndex+1)%gameState.getGameScene().getPlayerList().size();
+					}
+					while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
+					
+					if(playerIndex==0){
+						gameState.getGameScene().setTurnCount(gameState.getGameScene().getTurnCount()+1);
+					}
+					gameState.getGameScene().setPlayerIndex(playerIndex);
+					sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
 				
-				do{
-					playerIndex = (playerIndex+1)%gameState.getGameScene().getPlayerList().size();
+				}else{
+					sd = GameBuilder.getInstance().buildSceneData(gameState, 2);
 				}
-				while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
-				
-				if(playerIndex==0){
-					gameState.getGameScene().setTurnCount(gameState.getGameScene().getTurnCount()+1);
-				}
-				gameState.getGameScene().setPlayerIndex(playerIndex);
-				
-				
-				SceneData sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
 				OnlineInputOutput.getInstance().sendDataPackage(OnlineInputOutput.URL_UPDATE_SCENE, sd);
 				
 				/*
@@ -154,11 +158,7 @@ public class Boot extends Thread{
 		}
 		
 		
+		
 	}
-
-	
-	
-
-	
 
 }

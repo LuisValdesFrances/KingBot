@@ -14,7 +14,7 @@ import com.luis.strategy.map.Troop;
 
 public class PlayTurn {
 	
-	public void play(GameState gameState) {
+	public boolean play(GameState gameState) {
 		
 		String infoList = "";
 		for(Player p : gameState.getGameScene().getPlayerList()){
@@ -65,6 +65,22 @@ public class PlayTurn {
 				resolveMovement(gameState, player, selectedArmy);
 			}
 		}
+		
+		return isFinishGame(gameState, player);
+		
+	}
+	
+	private boolean isFinishGame(GameState gameState, Player player){
+		boolean end = true;
+		for(int i = 0; i < gameState.getGameScene().getPlayerList().size() && end; i++){
+			if(gameState.getGameScene().getPlayerList().get(i).getId() != 
+					player.getId()){
+				if(gameState.getGameScene().getPlayerList().get(i).getCapitalkingdom() != null){
+					end = false;
+				}
+			}
+		}
+		return end;
 	}
 	
 	private void combat(GameState gameState, List<Player> playerList, Player player, Terrain terrain, Army armyAtack, Army armyDefense){
