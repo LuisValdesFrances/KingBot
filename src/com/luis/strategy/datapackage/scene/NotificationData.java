@@ -14,6 +14,7 @@ public class NotificationData implements Serializable{
     private int sceneId;
     private String message;
     private boolean isRead;
+    private int type;
 
     public int getId() {
         return id;
@@ -46,4 +47,13 @@ public class NotificationData implements Serializable{
     public void setIsRead(boolean isRead) {
         this.isRead = isRead;
     }
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+    
 }

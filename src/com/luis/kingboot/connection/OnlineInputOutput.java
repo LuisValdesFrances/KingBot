@@ -17,6 +17,7 @@ public class OnlineInputOutput {
 	
 	public static final String SERVER_URL = "http://172.104.228.65:8080/KingServer/";//Online
 	//public static final String SERVER_URL = "http://192.168.1.110:8080/KingServer/";//Local
+	//public static final String SERVER_URL = "http://192.168.26.155:8080/KingServer/";//Local2
 	
 	private static OnlineInputOutput instance;
 	
@@ -40,19 +41,20 @@ public class OnlineInputOutput {
 		return instance;
 	}
 	
-	public String sendNotifiation(String URL, String scene, String user, String message){
+	public String sendNotifiation(String scene, String user, String message, String type){
 		HttpURLConnection connection = null;
 		String result = "";
 		
 		try {
 			// open URL connection
-			URL url = new URL(SERVER_URL + URL);
+			URL url = new URL(SERVER_URL + URL_CREATE_NOTIFICATION);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("scene", scene);
 			connection.setRequestProperty("user", user);
 			connection.setRequestProperty("message", message);
+			connection.setRequestProperty("type", type);
 			connection.setDoInput(true);
 			connection.setDoOutput(true);
 			connection.setUseCaches(false);
