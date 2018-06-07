@@ -224,7 +224,7 @@ public class PlayTurn {
 			
 		}
 		if(deletePlayer){
-			String message = "lost the game";
+			String message = "Player " + defeatPlayer.getName() + " lost the game";
 			sendNotification(gameState, player.getName(), defeatPlayer.getName(), message, 0);
 			
 			//Notifico al resto de jugadores que uno ha perdido
