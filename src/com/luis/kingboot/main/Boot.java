@@ -121,7 +121,7 @@ public class Boot extends Thread{
 					gameState.setGameScene(GameBuilder.getInstance().buildGameScene(gameState));
 				}
 				
-				System.err.println("\nTurn " + sceneData.getTurnCount() + " for " + sceneData.getNextPlayer());
+				System.err.println("\n\nTurn " + sceneData.getTurnCount() + " for " + sceneData.getNextPlayer() + " for scene " + sceneData.getId());
 				
 				
 				playTurn = new PlayTurn();
@@ -142,8 +142,11 @@ public class Boot extends Thread{
 					gameState.getGameScene().setPlayerIndex(playerIndex);
 					sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
 				
+					System.out.println(name + " has responded game");
 				}else{
 					sd = GameBuilder.getInstance().buildSceneData(gameState, 2);
+					
+					System.out.println(name + " has finish game");
 				}
 				OnlineInputOutput.getInstance().sendDataPackage(OnlineInputOutput.URL_UPDATE_SCENE, sd);
 				
@@ -153,7 +156,6 @@ public class Boot extends Thread{
 						gameState.getGameScene().getPlayerList().get(playerIndex).getName(), message);
 				*/
 				
-				System.out.println(name + " has responded game");
 			}
 		}
 		

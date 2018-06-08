@@ -201,57 +201,60 @@ public class PlayTurn {
 			}
 		}
 		
-		
+		String message = null;
 		if(attackerWins){
-			String message = "Attacker win";
+			message = "Attacker win";
 			
 			if(enemy != null){
 				//dataSender.addNotification(enemy.getPlayer().getName(), message);
-				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message, 1);
-				System.out.println(message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), 
+						1, OnlineInputOutput.CODE_NOTIFICATION_YOUR_ARMY_DEFEATED);
 			}
 		}
 		if(attackerLost){
-			String message =  "Attacker loses";
+			message =  "Attacker loses";
 			if(enemy != null){
-				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message, 1);
-				System.out.println(message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), 
+						1, OnlineInputOutput.CODE_NOTIFICATION_YOUR_ARMY_WON);
 			}
 		}
 		if(attackerHasDestroyed){
-			String message =  "The attacker has destroyed the enemy";
+			message =  "The attacker has destroyed the enemy";
 			if(enemy != null){
-				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message, 1);
-				System.out.println(message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), 
+						1, OnlineInputOutput.CODE_NOTIFICATION_YOUR_ARMY_DESTROYED);
 			}
 		}
 		if(arrackerHasBeendestroyed){
-			String message =  "The attacker has been destroyed";
+			message =  "The attacker has been destroyed";
 			if(enemy != null){
-				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(), message, 1);
-				System.out.println(message);
+				sendNotification(gameState, player.getName(), enemy.getPlayer().getName(),
+						1, OnlineInputOutput.CODE_NOTIFICATION_YOUR_ARMY_DESTROYED_ENEMY);
 			}
 		}
 		
 		if(changeCapital){
-			String message = "change his capital";
-			sendNotification(gameState, player.getName(), defeatPlayer.getName(), message, 1);
-			System.out.println(message);
+			message = defeatPlayer.getName() + " change his capital";
 			
+			for(Player p : gameState.getGameScene().getPlayerList()){
+				if(p != null && p.getId() != player.getId()){
+					sendNotification(gameState, player.getName(), p.getName(), 
+						1, OnlineInputOutput.CODE_NOTIFICATION_CHANGE_CAPITAL);
+				}
+			}
 		}
+		
 		if(deletePlayer){
-			String message = "Player " + defeatPlayer.getName() + " lost the game";
-			sendNotification(gameState, player.getName(), defeatPlayer.getName(), message, 0);
-			
+			message = "Player " + defeatPlayer.getName() + " lost the game";
 			//Notifico al resto de jugadores que uno ha perdido
 			for(Player p : gameState.getGameScene().getPlayerList()){
 				if(p != null && p.getId() != player.getId()){
-					sendNotification(gameState, player.getName(), p.getName(), message, 1);
+					sendNotification(gameState, player.getName(), p.getName(), 
+						0, OnlineInputOutput.CODE_NOTIFICATION_LOST_GAME);
 				}
 			}
-			
-			
-			
+		}
+		if(message != null){
 			System.out.println(message);
 		}
 		
@@ -436,12 +439,12 @@ public class PlayTurn {
 	}
 	
 	//Notifications
-	public void sendNotification(GameState gameState, String from, String to, String message, int type){
+	public void sendNotification(GameState gameState, String from, String to, int type, int message){
 		
-		String msg = from + " - " + message;
+		String msg = "" + message;
 		String t = "" + type;
 		
-		OnlineInputOutput.getInstance().sendNotifiation("" + gameState.getSceneData().getId(), to, msg, t);
+		OnlineInputOutput.getInstance().sendNotifiation("" + gameState.getSceneData().getId(), from, to, msg, t);
 	}
 
 }

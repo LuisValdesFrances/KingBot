@@ -8,11 +8,13 @@ import java.io.Serializable;
  */
 public class NotificationData implements Serializable{
 	
-    private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
     
     private int id;
     private int sceneId;
-    private String message;
+    private int message;
+    private String from;
+    private String to;
     private boolean isRead;
     private int type;
 
@@ -32,12 +34,28 @@ public class NotificationData implements Serializable{
         this.sceneId = sceneId;
     }
 
-    public String getMessage() {
+    public int getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(int message) {
         this.message = message;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public boolean isIsRead() {
@@ -48,12 +66,12 @@ public class NotificationData implements Serializable{
         this.isRead = isRead;
     }
 
-	public int getType() {
-		return type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    public void setType(int type) {
+        this.type = type;
+    }
     
 }

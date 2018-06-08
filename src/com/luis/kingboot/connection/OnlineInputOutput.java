@@ -34,6 +34,15 @@ public class OnlineInputOutput {
 	public static final String URL_GET_START_SCENE = "getStartSceneServlet";
 	public static final String URL_GET_SCENE = "getSceneController";
 	
+	//Notifications code
+	public static final int CODE_NOTIFICATION_YOU_LOST_GAME= 0;
+	public static final int CODE_NOTIFICATION_LOST_GAME= CODE_NOTIFICATION_YOU_LOST_GAME+1;
+	public static final int CODE_NOTIFICATION_YOUR_ARMY_DEFEATED= CODE_NOTIFICATION_LOST_GAME+1;
+	public static final int CODE_NOTIFICATION_YOUR_ARMY_WON= CODE_NOTIFICATION_YOUR_ARMY_DEFEATED+1;
+	public static final int CODE_NOTIFICATION_YOUR_ARMY_DESTROYED= CODE_NOTIFICATION_YOUR_ARMY_WON+1;
+	public static final int CODE_NOTIFICATION_YOUR_ARMY_DESTROYED_ENEMY= CODE_NOTIFICATION_YOUR_ARMY_DESTROYED+1;
+	public static final int CODE_NOTIFICATION_CHANGE_CAPITAL= CODE_NOTIFICATION_YOUR_ARMY_DESTROYED_ENEMY+1;
+	
 	public static OnlineInputOutput getInstance(){
 		if(instance == null){
 			instance = new OnlineInputOutput();
@@ -41,7 +50,7 @@ public class OnlineInputOutput {
 		return instance;
 	}
 	
-	public String sendNotifiation(String scene, String user, String message, String type){
+	public String sendNotifiation(String scene, String from, String to, String message, String type){
 		HttpURLConnection connection = null;
 		String result = "";
 		
@@ -52,7 +61,8 @@ public class OnlineInputOutput {
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("scene", scene);
-			connection.setRequestProperty("user", user);
+			connection.setRequestProperty("from", from);
+			connection.setRequestProperty("to", to);
 			connection.setRequestProperty("message", message);
 			connection.setRequestProperty("type", type);
 			connection.setDoInput(true);
@@ -77,7 +87,7 @@ public class OnlineInputOutput {
 		return result;
 	}
 	
-	public NotificationListData reviceNotificationListData(String user){
+	public NotificationListData reviceNotificationListData(String to){
 		NotificationListData notificationListData = null;
 		HttpURLConnection connection = null;
 		try {
@@ -87,7 +97,7 @@ public class OnlineInputOutput {
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
 			connection.setRequestMethod("GET");
-			connection.setRequestProperty("user", user);
+			connection.setRequestProperty("to", to);
 			connection.setDoInput(true);
 			connection.setDoOutput(false);
 			connection.setUseCaches(false);
