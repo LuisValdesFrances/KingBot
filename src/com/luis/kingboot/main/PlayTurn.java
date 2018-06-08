@@ -46,7 +46,10 @@ public class PlayTurn {
 			management(gameState.getGameScene().getMapObject(), 
 			gameState.getGameScene().getPlayerList());
 		
-		for(Army selectedArmy : player.getArmyList()){
+		for(int i = 0; i < player.getArmyList().size(); i++){
+			
+			Army selectedArmy = player.getArmyList().get(i);
+			
 			player.getActionIA().buildDecision(
 					gameState.getGameScene().getPlayerList(), selectedArmy);
 			
@@ -129,7 +132,6 @@ public class PlayTurn {
 			
 			//Comparo si alguno de los territorios adyacentes pertenece al derrotado
 			Kingdom defeatTarget = getBorderKingdom(playerList, defeatArmy);
-			
 			
 			boolean aniquilation = 
 				(result == 3 && defeatArmy.getPlayer().getId() != player.getId())

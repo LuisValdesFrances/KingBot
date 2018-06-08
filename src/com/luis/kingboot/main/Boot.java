@@ -92,74 +92,74 @@ public class Boot extends Thread{
 	}
 	
 	private void play(){
-		//recivo todas las partidas en las que participo
-		SceneListData sceneListData = OnlineInputOutput.getInstance().reviceSceneListData(name);
-		for(SceneData sceneData : sceneListData.getSceneDataList()){
-			//Si el siguiente jugador soy yo:
-			if(sceneData.getNextPlayer().equals(name)){
-				
-				//espero un poco (Tema de notificaciones)
-				try{
-					Thread.sleep(3000);
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-				
-				
-				
-				PlayTurn playTurn = null;
-				
-				//Cargo la partida
-				GameState gameState = new GameState();
-				if(sceneData.getState() == 0){
-					SceneData sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_START_SCENE, ""+sceneData.getId());
-					gameState.init(GameState.GAME_MODE_ONLINE, sd);
-					gameState.setGameScene(GameBuilder.getInstance().buildStartGameScene(gameState));
-				}else{
-					SceneData sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_SCENE, ""+sceneData.getId());
-					gameState.init(GameState.GAME_MODE_ONLINE, sd);
-					gameState.setGameScene(GameBuilder.getInstance().buildGameScene(gameState));
-				}
-				
-				System.err.println("\n\nTurn " + sceneData.getTurnCount() + " for " + sceneData.getNextPlayer() + " for scene " + sceneData.getId());
-				
-				
-				playTurn = new PlayTurn();
-				boolean isFinishGame = playTurn.play(gameState);
-				
-				SceneData sd = null;
-				if(!isFinishGame){
+		synchronized (mutex) {
+			//recivo todas las partidas en las que participo
+			SceneListData sceneListData = OnlineInputOutput.getInstance().reviceSceneListData(name);
+			for(SceneData sceneData : sceneListData.getSceneDataList()){
+				//Si el siguiente jugador soy yo:
+				if(sceneData.getNextPlayer().equals(name)){
 					
-					int playerIndex = gameState.getGameScene().getPlayerIndex();
-					do{
-						playerIndex = (playerIndex+1)%gameState.getGameScene().getPlayerList().size();
+					//espero un poco (Tema de notificaciones)
+					try{
+						Thread.sleep(3000);
+					}catch(Exception e){
+						e.printStackTrace();
 					}
-					while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
 					
-					if(playerIndex==0){
-						gameState.getGameScene().setTurnCount(gameState.getGameScene().getTurnCount()+1);
+					
+					
+					PlayTurn playTurn = null;
+					
+					//Cargo la partida
+					GameState gameState = new GameState();
+					if(sceneData.getState() == 0){
+						SceneData sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_START_SCENE, ""+sceneData.getId());
+						gameState.init(GameState.GAME_MODE_ONLINE, sd);
+						gameState.setGameScene(GameBuilder.getInstance().buildStartGameScene(gameState));
+					}else{
+						SceneData sd = OnlineInputOutput.getInstance().reviceSceneData(OnlineInputOutput.URL_GET_SCENE, ""+sceneData.getId());
+						gameState.init(GameState.GAME_MODE_ONLINE, sd);
+						gameState.setGameScene(GameBuilder.getInstance().buildGameScene(gameState));
 					}
-					gameState.getGameScene().setPlayerIndex(playerIndex);
-					sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
-				
-					System.out.println(name + " has responded game");
-				}else{
-					sd = GameBuilder.getInstance().buildSceneData(gameState, 2);
 					
-					System.out.println(name + " has finish game");
+					System.err.println("\n\nTurn " + sceneData.getTurnCount() + " for " + sceneData.getNextPlayer() + " for scene " + sceneData.getId());
+					
+					
+					playTurn = new PlayTurn();
+					boolean isFinishGame = playTurn.play(gameState);
+					
+					SceneData sd = null;
+					if(!isFinishGame){
+						
+						int playerIndex = gameState.getGameScene().getPlayerIndex();
+						do{
+							playerIndex = (playerIndex+1)%gameState.getGameScene().getPlayerList().size();
+						}
+						while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
+						
+						if(playerIndex==0){
+							gameState.getGameScene().setTurnCount(gameState.getGameScene().getTurnCount()+1);
+						}
+						gameState.getGameScene().setPlayerIndex(playerIndex);
+						sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
+					
+						System.out.println(name + " has responded game");
+					}else{
+						sd = GameBuilder.getInstance().buildSceneData(gameState, 2);
+						
+						System.out.println(name + " has finish game");
+					}
+					OnlineInputOutput.getInstance().sendDataPackage(OnlineInputOutput.URL_UPDATE_SCENE, sd);
+					
+					/*
+					String message = "TURN:" + (gameState.getGameScene().getTurnCount()+1);
+					playTurn.sendNotification(gameState, 
+							gameState.getGameScene().getPlayerList().get(playerIndex).getName(), message);
+					*/
+					
 				}
-				OnlineInputOutput.getInstance().sendDataPackage(OnlineInputOutput.URL_UPDATE_SCENE, sd);
-				
-				/*
-				String message = "TURN:" + (gameState.getGameScene().getTurnCount()+1);
-				playTurn.sendNotification(gameState, 
-						gameState.getGameScene().getPlayerList().get(playerIndex).getName(), message);
-				*/
-				
 			}
 		}
-		
-		
 		
 	}
 
