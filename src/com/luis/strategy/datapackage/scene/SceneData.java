@@ -15,7 +15,7 @@ public class SceneData implements Serializable{
 	private int turnCount;//Variable
 	private int state;
 	
-	List<PlayerData> playerDataList;//Variable
+	private List<PlayerData> playerDataList;//Variable
 	
 	
 	public int getId() {

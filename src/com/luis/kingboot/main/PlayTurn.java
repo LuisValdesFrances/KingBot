@@ -240,7 +240,7 @@ public class PlayTurn {
 			
 			for(Player p : gameState.getGameScene().getPlayerList()){
 				if(p != null && p.getId() != player.getId()){
-					sendNotification(gameState, player.getName(), p.getName(), 
+					sendNotification(gameState, defeatPlayer.getName(), p.getName(), 
 						1, OnlineInputOutput.CODE_NOTIFICATION_CHANGE_CAPITAL);
 				}
 			}
@@ -248,11 +248,15 @@ public class PlayTurn {
 		
 		if(deletePlayer){
 			message = "Player " + defeatPlayer.getName() + " lost the game";
+			
+			sendNotification(gameState, player.getName(), defeatPlayer.getName(),
+					0, OnlineInputOutput.CODE_NOTIFICATION_YOU_LOST_GAME);
+			
 			//Notifico al resto de jugadores que uno ha perdido
 			for(Player p : gameState.getGameScene().getPlayerList()){
-				if(p != null && p.getId() != player.getId()){
-					sendNotification(gameState, player.getName(), p.getName(), 
-						0, OnlineInputOutput.CODE_NOTIFICATION_LOST_GAME);
+				if(p != null && p.getId() != player.getId() && p.getId() != defeatPlayer.getId()){
+					sendNotification(gameState, defeatPlayer.getName(), p.getName(), 
+						1, OnlineInputOutput.CODE_NOTIFICATION_LOST_GAME);
 				}
 			}
 		}
