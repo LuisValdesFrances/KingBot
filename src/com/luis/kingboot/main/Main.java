@@ -8,7 +8,7 @@ public class Main {
 	
 	public static final boolean TEST = false;
 	public static final long MIN_SLEEP = 10000;
-	public static final long MAX_SLEEP = 1000*60*60*3;//tres horas
+	public static final long MAX_SLEEP = 1000*60*60;//una hora
 	
 	public static final String[] BOOT_NAME_LIST = {
 												"SUPER PEPETONI", 
