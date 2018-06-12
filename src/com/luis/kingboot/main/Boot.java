@@ -90,7 +90,7 @@ public class Boot extends Thread{
 				//Me uno a la partida
 				if(preSceneListData.getPreSceneDataList().size() > 0){
 					PreSceneData preSceneData = preSceneListData.getPreSceneDataList().get(0);
-					int insCount = (preSceneData.getPlayerCount());
+					int insCount = (preSceneData.getPlayerList().size());
 					
 					String create = null;
 					if(insCount+1 ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){

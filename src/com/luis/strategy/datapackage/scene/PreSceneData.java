@@ -1,6 +1,7 @@
 package com.luis.strategy.datapackage.scene;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -14,7 +15,7 @@ public class PreSceneData implements Serializable{
     private int map;
     private String name;
     private String host;
-    private int playerCount;
+    private List<PlayerData> playerList;
 
     public int getId() {
         return id;
@@ -48,14 +49,11 @@ public class PreSceneData implements Serializable{
 		this.host = host;
 	}
 
-	public int getPlayerCount() {
-        return playerCount;
-    }
+	public List<PlayerData> getPlayerList() {
+		return playerList;
+	}
 
-    public void setPlayerCount(int playerCount) {
-        this.playerCount = playerCount;
-    }
-    
-    
-    
+	public void setPlayerList(List<PlayerData> playerList) {
+		this.playerList = playerList;
+	}
 }
