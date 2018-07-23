@@ -117,7 +117,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.FOREST, false));
-			terrainList.add(new Terrain(map,GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map,GameParams.CITY, false));
 			k1.setTerrainList(terrainList);
 		
 		
@@ -128,7 +128,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map,GameParams.FOREST, false));
 			terrainList.add(new Terrain(map,GameParams.FOREST, false));
-			terrainList.add(new Terrain(map,GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map,GameParams.CITY, false));
 			k2.setTerrainList(terrainList);
 			
 			k3 = new Kingdom(map);
@@ -139,7 +139,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.FOREST, false));
-			terrainList.add(new Terrain(map,GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map,GameParams.CITY, false));
 			k3.setTerrainList(terrainList);
 			
 			k4 = new Kingdom(map);
@@ -179,7 +179,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.FOREST, false));
-			terrainList.add(new Terrain(map,GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map,GameParams.CITY, false));
 			k7.setTerrainList(terrainList);
 			
 			k8 = new Kingdom(map);
@@ -201,7 +201,7 @@ public class DataKingdom {
 			//La posicion del terreno se expresa en porcentajes respecto al ancho y alto del mapa
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k9.setTerrainList(terrainList);
 			
 			k10 = new Kingdom(map);
@@ -235,7 +235,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
 			terrainList.add(new Terrain(map, GameParams.MONTAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k13.setTerrainList(terrainList);
 		}
 		
@@ -249,7 +249,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
 			terrainList.add(new Terrain(map, GameParams.MONTAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k14.setTerrainList(terrainList);
 			
 			k15 = new Kingdom(map);
@@ -295,7 +295,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map,GameParams.FOREST, false));
-			terrainList.add(new Terrain(map,GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map,GameParams.CITY, false));
 			k19.setTerrainList(terrainList);
 			
 			k20 = new Kingdom(map);
@@ -314,7 +314,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k21.setTerrainList(terrainList);
 			
 			k22 = new Kingdom(map);
@@ -323,7 +323,7 @@ public class DataKingdom {
 			//La posicion del terreno se expresa en porcentajes respecto al ancho y alto del mapa
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k22.setTerrainList(terrainList);
 			
 			k23 = new Kingdom(map);
@@ -355,7 +355,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k25.setTerrainList(terrainList);
 			
 			k26 = new Kingdom(map);
@@ -365,7 +365,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map,GameParams.MONTAIN, false));
 			terrainList.add(new Terrain(map,GameParams.MONTAIN, false));
-			terrainList.add(new Terrain(map,GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map,GameParams.CITY, false));
 			k26.setTerrainList(terrainList);
 			
 			k27 = new Kingdom(map);
@@ -420,7 +420,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k32.setTerrainList(terrainList);
 			
 			k33 = new Kingdom(map);
@@ -430,7 +430,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k33.setTerrainList(terrainList);
 			
 			k34 = new Kingdom(map);
@@ -442,7 +442,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k34.setTerrainList(terrainList);
 			
 			k35 = new Kingdom(map);
@@ -466,7 +466,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k36.setTerrainList(terrainList);
 			
 			k37 = new Kingdom(map);
@@ -486,7 +486,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k38.setTerrainList(terrainList);
 			
 			k39 = new Kingdom(map);
@@ -505,7 +505,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k40.setTerrainList(terrainList);
 			
 			k41 = new Kingdom(map);
@@ -539,7 +539,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k43.setTerrainList(terrainList);
 			
 			
@@ -570,7 +570,7 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
 			terrainList.add(new Terrain(map, GameParams.MONTAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k46.setTerrainList(terrainList);
 			
 			k47 = new Kingdom(map);
@@ -607,7 +607,7 @@ public class DataKingdom {
 			//La posicion del terreno se expresa en porcentajes respecto al ancho y alto del mapa
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k50.setTerrainList(terrainList);
 		}
 		
@@ -621,7 +621,7 @@ public class DataKingdom {
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
 			terrainList.add(new Terrain(map, GameParams.FOREST, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k51.setTerrainList(terrainList);
 			
 			k52 = new Kingdom(map);
@@ -639,7 +639,7 @@ public class DataKingdom {
 			//La posicion del terreno se expresa en porcentajes respecto al ancho y alto del mapa
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k53.setTerrainList(terrainList);
 			
 			k54 = new Kingdom(map);
@@ -665,7 +665,7 @@ public class DataKingdom {
 			//La posicion del terreno se expresa en porcentajes respecto al ancho y alto del mapa
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.MONTAIN, false));
-			terrainList.add(new Terrain(map, GameParams.SMALL_CITY, false));
+			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k56.setTerrainList(terrainList);
 			
 			k57 = new Kingdom(map);
@@ -1187,6 +1187,10 @@ public class DataKingdom {
 		if(k55 != null) kingdomList.add(k55);
 		if(k56 != null) kingdomList.add(k56);
 		if(k57 != null) kingdomList.add(k57);
+		
+		for(Kingdom k :kingdomList){
+			k.setCityManagement(null);
+		}
 		
 		// Rastreo null
 		for (int i = 0; i < kingdomList.size(); i++) {

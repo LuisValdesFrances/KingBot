@@ -42,6 +42,11 @@ public class PlayTurn {
 		int salary = player.getCost(false);
 		player.setGold(player.getGold()+tax-salary);
 		
+		//Quito los marcadores de Fe
+		for(Kingdom k : player.getKingdomList()){
+			k.setProtectedByFaith(false);
+		}
+		
 		player.getActionIA().
 			management(gameState.getGameScene().getMapObject(), 
 			gameState.getGameScene().getPlayerList());
@@ -55,17 +60,36 @@ public class PlayTurn {
 			
 			if(selectedArmy.getIaDecision().getDecision() != ActionIA.DECISION_NONE){
 				
-				if(
-						selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE ||
-						selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE_AND_ATACK){
-					
-					for(Kingdom k : gameState.getGameScene().getKingdomList()){
-						if(k.getId() == selectedArmy.getIaDecision().getKingdomDecision()){
-							putArmyAtKingdom(selectedArmy, k);
+				Kingdom kingdom = getKingdom(gameState, selectedArmy.getIaDecision().getKingdomDecision());
+				
+				if(kingdom != null && !player.hasKingom(kingdom) && kingdom.isProtectedByFaith()){
+					System.out.println("Kingdom " + kingdom.getId() + " esta protegido por Fe");
+				}else{
+					if(
+							selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE ||
+							selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE_AND_ATACK){
+						
+						for(Kingdom k : gameState.getGameScene().getKingdomList()){
+							if(k.getId() == selectedArmy.getIaDecision().getKingdomDecision()){
+								putArmyAtKingdom(selectedArmy, k);
+							}
 						}
 					}
+					resolveMovement(gameState, player, selectedArmy);
 				}
-				resolveMovement(gameState, player, selectedArmy);
+			}
+		}
+		
+		
+		//Faith
+		for(Kingdom k : player.getKingdomList()){
+			//Chequeo de Fe
+			if(k.getCityManagement() != null){
+				if(k.getCityManagement().getBuildingList().get(GameParams.CHURCH).getActiveLevel() > -1){
+					int pro = GameParams.FAITH_CHECK[k.getCityManagement().getBuildingList().get(GameParams.CHURCH).getActiveLevel()];
+					int ran = Main.getRandom(0, 100);
+					k.setProtectedByFaith(ran <= pro);
+				}
 			}
 		}
 		
@@ -437,6 +461,16 @@ public class PlayTurn {
 				}
 			}
 		}
+	}
+	
+	private Kingdom getKingdom(GameState gameState, int kingdomId){
+		Kingdom kingdom = null;
+		for(Kingdom k : gameState.getGameScene().getKingdomList()){
+			if(k.getId() == kingdomId){
+				kingdom = k;
+			}
+		}
+		return kingdom;
 	}
 	
 	private void putArmyAtKingdom(Army army, Kingdom newKingdom){

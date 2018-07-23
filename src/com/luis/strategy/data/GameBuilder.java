@@ -6,11 +6,14 @@ import java.util.List;
 import com.luis.kingboot.main.GameState;
 import com.luis.strategy.constants.GameParams;
 import com.luis.strategy.datapackage.scene.ArmyData;
+import com.luis.strategy.datapackage.scene.BuildingData;
 import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.KingdomData;
 import com.luis.strategy.datapackage.scene.PlayerData;
 import com.luis.strategy.datapackage.scene.TroopData;
 import com.luis.strategy.map.Army;
+import com.luis.strategy.map.Building;
+import com.luis.strategy.map.CityManagement;
 import com.luis.strategy.map.GameScene;
 import com.luis.strategy.map.Kingdom;
 import com.luis.strategy.map.Player;
@@ -98,6 +101,22 @@ public class GameBuilder {
 			for(KingdomData kingdomData : playerData.getKingdomList()){
 				Kingdom k = gameScene.getKingdom(kingdomData.getId());
 				k.setState(kingdomData.getState());
+
+				k.setProtectedByFaith(kingdomData.isProtectedByFaith());
+				
+				//City management
+				CityManagement cityManagement = null;
+				if(kingdomData.getBuildingList() != null){
+					cityManagement = new CityManagement();
+					
+					for(BuildingData bd : kingdomData.getBuildingList()){
+						Building building = new Building(bd.getType(), bd.getState(), bd.getLevel());
+						
+						cityManagement.getBuildingList().set(bd.getType(), building);
+					}
+				}
+				k.setCityManagement(cityManagement);
+				
 				player.getKingdomList().add(k);
 			}
 			
@@ -167,6 +186,23 @@ public class GameBuilder {
 				KingdomData kd = new KingdomData();
 				kd.setId(k.getId());
 				kd.setState(k.getState());
+				kd.setProtectedByFaith(k.isProtectedByFaith());
+				
+				//City management
+				List<BuildingData> buildingDataList = null;
+				if(k.getCityManagement() != null){
+					buildingDataList = new ArrayList<BuildingData>();
+					for(Building b : k.getCityManagement().getBuildingList()){
+						BuildingData bd = new BuildingData();
+						bd.setType(b.getType());
+						bd.setLevel(b.getLevel());
+						bd.setState(b.getState());
+						
+						buildingDataList.add(bd);
+					}
+				}
+				kd.setBuildingList(buildingDataList);
+				
 				kdList.add(kd);
 			}
 			pd.setKingdomList(kdList);

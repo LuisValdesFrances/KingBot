@@ -64,9 +64,7 @@ public class Player {
 	public int getTaxes() {
 		int tax = 0;
 		for(Kingdom kingdom : getKingdomList()){
-			for(Terrain terrain : kingdom.getTerrainList()){
-				tax += GameParams.TERRAIN_TAX[terrain.getType()];
-			}
+			tax += kingdom.getTaxes();
 		}
 		return tax;
 	}
@@ -135,22 +133,11 @@ public class Player {
 		this.id = id;
 	}
 	
+	//Falta seleccionar aquella con un nivel mayor
 	public boolean changeCapital(){
 		if(getCapitalkingdom() == null){
 			for(Kingdom k : kingdomList){
-				if(k.getTerrainList().get(k.getTerrainList().size()-1).getType() == GameParams.BIG_CITY){
-					setCapitalKingdom(k.getId());
-					return true;
-				}
-			}
-			for(Kingdom k : kingdomList){
-				if(k.getTerrainList().get(k.getTerrainList().size()-1).getType() == GameParams.MEDIUM_CITY){
-					setCapitalKingdom(k.getId());
-					return true;
-				}
-			}
-			for(Kingdom k : kingdomList){
-				if(k.getTerrainList().get(k.getTerrainList().size()-1).getType() == GameParams.SMALL_CITY){
+				if(k.getTerrainList().get(k.getTerrainList().size()-1).getType() == GameParams.CITY){
 					setCapitalKingdom(k.getId());
 					return true;
 				}
@@ -158,8 +145,6 @@ public class Player {
 		}
 		return false;
 	}
-
-	
 
 	public ActionIA getActionIA() {
 		return actionIA;

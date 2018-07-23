@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Main {
 	
-	public static final boolean TEST = false;
+	public static final boolean TEST = true;
 	public static final long MIN_SLEEP = 10000;
 	public static final long MAX_SLEEP = 1000*60*60;//una hora
 	
