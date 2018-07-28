@@ -29,7 +29,7 @@ public class Boot extends Thread{
 		while(true){
 			try{
 				createScenary();
-				//joinScenary();
+				joinScenary();
 				play();
 				
 				long sleep;
