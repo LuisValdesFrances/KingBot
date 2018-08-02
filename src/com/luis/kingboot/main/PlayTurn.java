@@ -36,6 +36,13 @@ public class PlayTurn {
 			a.createIADecision();
 		}
 		
+		//City management
+		for(Kingdom k : player.getKingdomList()){
+			if(k.getCityManagement() != null){
+				k.getCityManagement().update();
+			}
+		}
+		
 		//Caluculo de la economia
 		int tax = player.getTaxes();
 		//Calculo de salarios
@@ -286,6 +293,15 @@ public class PlayTurn {
 		}
 		if(message != null){
 			System.out.println(message);
+		}
+		
+		if(deletePlayer){
+			for(int i = 0; i < playerList.size(); i++){
+				if(playerList.get(i).getId() == player.getId()){
+					playerList.remove(i);
+					break;
+				}
+			}
 		}
 		
 		if(removeArmy){

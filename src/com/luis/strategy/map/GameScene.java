@@ -13,8 +13,7 @@ public class GameScene{
 	
 	private MapObject mapObject;
 	
-	public GameScene(
-			int map) {
+	public GameScene(int map) {
 		this.map = map;
 		mapObject = new MapObject(null) {
 		};

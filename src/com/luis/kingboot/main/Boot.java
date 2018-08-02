@@ -34,7 +34,7 @@ public class Boot extends Thread{
 				
 				long sleep;
 				if(Main.TEST){
-					sleep = 10000;
+					sleep = 5000;
 				}else{
 					sleep = getRandom(Main.MIN_SLEEP, Main.MAX_SLEEP);
 					System.out.println(name + " sleep " + (sleep/1000) + " seconds");
