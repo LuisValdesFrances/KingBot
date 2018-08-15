@@ -44,7 +44,7 @@ public class PlayTurn {
 		}
 		
 		//Caluculo de la economia
-		int tax = player.getTaxes();
+		int tax = player.getTaxes()*10;
 		//Calculo de salarios
 		int salary = player.getCost(false);
 		player.setGold(player.getGold()+tax-salary);
@@ -54,35 +54,42 @@ public class PlayTurn {
 			k.setProtectedByFaith(false);
 		}
 		
+		//Activo ejercitos
+		for(Army a : player.getArmyList()){
+			a.setState(Army.STATE_ON);
+		}
+		
+		
 		player.getActionIA().
 			management(gameState.getGameScene().getMapObject(), 
 			gameState.getGameScene().getPlayerList());
 		
 		for(int i = 0; i < player.getArmyList().size(); i++){
-			
-			Army selectedArmy = player.getArmyList().get(i);
-			
-			player.getActionIA().buildDecision(
-					gameState.getGameScene().getPlayerList(), selectedArmy);
-			
-			if(selectedArmy.getIaDecision().getDecision() != ActionIA.DECISION_NONE){
+			if(player.getArmyList().get(i).getState() == Army.STATE_ON){
+				Army selectedArmy = player.getArmyList().get(i);
 				
-				Kingdom kingdom = getKingdom(gameState, selectedArmy.getIaDecision().getKingdomDecision());
+				player.getActionIA().buildDecision(
+						gameState.getGameScene().getPlayerList(), selectedArmy);
 				
-				if(kingdom != null && !player.hasKingom(kingdom) && kingdom.isProtectedByFaith()){
-					System.out.println("Kingdom " + kingdom.getId() + " esta protegido por Fe");
-				}else{
-					if(
-							selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE ||
-							selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE_AND_ATACK){
-						
-						for(Kingdom k : gameState.getGameScene().getKingdomList()){
-							if(k.getId() == selectedArmy.getIaDecision().getKingdomDecision()){
-								putArmyAtKingdom(selectedArmy, k);
+				if(selectedArmy.getIaDecision().getDecision() != ActionIA.DECISION_NONE){
+					
+					Kingdom kingdom = getKingdom(gameState, selectedArmy.getIaDecision().getKingdomDecision());
+					
+					if(kingdom != null && !player.hasKingom(kingdom) && kingdom.isProtectedByFaith()){
+						System.out.println("Kingdom " + kingdom.getId() + " esta protegido por Fe");
+					}else{
+						if(
+								selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE ||
+								selectedArmy.getIaDecision().getDecision() == ActionIA.DECISION_MOVE_AND_ATACK){
+							
+							for(Kingdom k : gameState.getGameScene().getKingdomList()){
+								if(k.getId() == selectedArmy.getIaDecision().getKingdomDecision()){
+									putArmyAtKingdom(selectedArmy, k);
+								}
 							}
 						}
+						resolveMovement(gameState, player, selectedArmy);
 					}
-					resolveMovement(gameState, player, selectedArmy);
 				}
 			}
 		}
@@ -463,6 +470,10 @@ public class PlayTurn {
 		}
 		army1.setSelected(true);
 		army1.setDefeat(army1.isDefeat() || army2.isDefeat());
+		//Si cualquiera de los ejercitos aun no ha actuado, mantengo el estado
+		if(army1.getState()==Army.STATE_ON || army2.getState()==Army.STATE_ON){
+			army1.setState(Army.STATE_ON);
+		}
 		removeArmy(playerList, army2);
 		
 		return cost;

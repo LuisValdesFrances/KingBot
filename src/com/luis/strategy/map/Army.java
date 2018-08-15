@@ -38,6 +38,7 @@ public class Army extends MapObject{
 		this.kingdom = kingdom;
 		this.lastKingdom = kingdom;
 		this.flag = flag;
+		this.state = STATE_OFF;
 		
 		if(getPlayer().getActionIA() != null){
 			iaDecision = new IADecision();

@@ -250,23 +250,6 @@ public class ActionIA {
 		}
 	}
 	
-	public Army getActiveArmy(List<Player> playerList){
-		Army activeArmy = null;
-		for(int i = 0; i < player.getArmyList().size() && activeArmy == null; i++){
-			if(player.getArmyList().get(i).getState() == Army.STATE_ON){
-				activeArmy = player.getArmyList().get(i);
-			}
-		}
-		
-		buildDecision(playerList, activeArmy);
-		
-		if(activeArmy != null && activeArmy.getIaDecision().getDecision() == DECISION_NONE){
-			return null;
-		}else{
-			return activeArmy;
-		}
-	}
-	
 	public Player getPlayer() {
 		return player;
 	}
