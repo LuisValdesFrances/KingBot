@@ -44,7 +44,7 @@ public class PlayTurn {
 		}
 		
 		//Caluculo de la economia
-		int tax = player.getTaxes()*10;
+		int tax = player.getTaxes();
 		//Calculo de salarios
 		int salary = player.getCost(false);
 		player.setGold(player.getGold()+tax-salary);
@@ -225,18 +225,21 @@ public class PlayTurn {
 				if(newState < totalStates){
 					selectedArmy.getKingdom().setState(newState);
 					selectedArmy.getKingdom().setTarget(-1);
-				}else{//Conquista
-					defeatPlayer = getPlayerByKingdom(playerList, selectedArmy.getKingdom());
+				//Conquista
+				}else{
 					
 					selectedArmy.getKingdom().setState(0);
 					selectedArmy.getKingdom().setTarget(-1);
 					addNewConquest(playerList, player, selectedArmy.getKingdom());
 					
-					//Cambio de capital
-					changeCapital = defeatPlayer != null && defeatPlayer.changeCapital();
-					
-					//Eliminacion jugador
-					deletePlayer = defeatPlayer != null && defeatPlayer.getCapitalkingdom() == null;
+					if(selectedArmy.getKingdom().isACity()){
+						defeatPlayer = getPlayerByKingdom(playerList, selectedArmy.getKingdom());
+						//Cambio de capital
+						changeCapital = defeatPlayer != null && defeatPlayer.changeCapital();
+						
+						//Eliminacion jugador
+						deletePlayer = defeatPlayer != null && defeatPlayer.getCapitalkingdom() == null;
+					}
 				}
 			}
 		}
@@ -303,6 +306,11 @@ public class PlayTurn {
 		}
 		
 		if(deletePlayer){
+			removePlayerKingdoms(defeatPlayer);
+		}
+		
+		/*
+		if(deletePlayer){
 			for(int i = 0; i < playerList.size(); i++){
 				if(playerList.get(i).getId() == player.getId()){
 					playerList.remove(i);
@@ -310,6 +318,7 @@ public class PlayTurn {
 				}
 			}
 		}
+		*/
 		
 		if(removeArmy){
 			removeArmy(playerList, defeatArmy);
@@ -320,6 +329,11 @@ public class PlayTurn {
 		}
 	}
 	
+	private void removePlayerKingdoms(Player player){
+		for(Kingdom k : player.getKingdomList()){
+			player.removeKingdom(k);
+		}
+	}
 	
 	private int calculateDifficult(Terrain terrain, Army armyAtack, Army armyDefense){
 		int value=0;
