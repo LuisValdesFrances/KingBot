@@ -59,6 +59,9 @@ public class PlayTurn {
 			a.setState(Army.STATE_ON);
 		}
 		
+		if(player.getGold() < 0){
+			player.getActionIA().discard();
+		}
 		
 		player.getActionIA().
 			management(gameState.getGameScene().getMapObject(), 
@@ -227,13 +230,13 @@ public class PlayTurn {
 					selectedArmy.getKingdom().setTarget(-1);
 				//Conquista
 				}else{
-					
+					//Obtengo al perdedor antes de cambiar el reino de dueño
+					defeatPlayer = getPlayerByKingdom(playerList, selectedArmy.getKingdom());
 					selectedArmy.getKingdom().setState(0);
 					selectedArmy.getKingdom().setTarget(-1);
 					addNewConquest(playerList, player, selectedArmy.getKingdom());
 					
 					if(selectedArmy.getKingdom().isACity()){
-						defeatPlayer = getPlayerByKingdom(playerList, selectedArmy.getKingdom());
 						//Cambio de capital
 						changeCapital = defeatPlayer != null && defeatPlayer.changeCapital();
 						
