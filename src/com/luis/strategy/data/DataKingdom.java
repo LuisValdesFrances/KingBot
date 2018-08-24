@@ -901,7 +901,6 @@ public class DataKingdom {
 			k29.getBorderList().add(k26);
 			k29.getBorderList().add(k30);
 			k29.getBorderList().add(k32);
-			k29.getBorderList().add(k7);
 		}
 		
 		if(k30 != null){
