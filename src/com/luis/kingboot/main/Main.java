@@ -26,11 +26,12 @@ public class Main {
 	delete from scene;
 	delete from pre_scene;
 	
-	delete from notification where pre_scene_id = 378;
-	delete from rel_pre_scene_users where pre_scene_id = 378;
-	delete from incidence where pre_scene_id = 378;
-	delete from scene where id = 378;
-	delete from pre_scene where id = 378;
+	delete from scene_users_request where pre_scene_id = 387;
+	delete from notification where pre_scene_id = 387;
+	delete from rel_pre_scene_users where pre_scene_id = 387;
+	delete from incidence where pre_scene_id = 387;
+	delete from scene where id = 387;
+	delete from pre_scene where id = 387;
 	 */
 
 	private static Object mutex;
