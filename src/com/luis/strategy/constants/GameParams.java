@@ -14,6 +14,8 @@ public class GameParams {
 	public static final int[] HARASSERS_COMBAT = 	new int[]{1, 2, 2, 1, 2};
 	public static final int[] SIEGE_COMBAT = 		new int[]{0, 0, 0, 6, 6};
 	
+	public static final int[] TROOP_ORDER =			new int[]{3, 1, 2, 0};
+	
 	public static final int[] TERRAIN_DEFENSE =		new int[]{3, 5, 8, 10, 8};
 	//Ganancias reportadas por el territorio
 	public static final int[] TERRAIN_TAX =			new int[]{50, 30, 10, 20, 10};

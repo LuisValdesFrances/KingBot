@@ -54,7 +54,8 @@ public class Boot extends Thread{
 			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().reviceAllPreSceneListData();
 			
 			if(preSceneListData != null && preSceneListData.getPreSceneDataList().size() < MAX_PREESCENARI){
-				int map = Main.getRandom(0, 4);
+				//int map = Main.getRandom(0, 4);
+				int map = Main.getRandom(0, 1);
 				String host = name;
 				String sceneName = "Scene by " + name;
 				
@@ -77,9 +78,12 @@ public class Boot extends Thread{
 					
 					//Si es un boot no se une a la partida del boot
 					boolean found = false;
+					///*
 					for(int j = 0; j < Main.BOOT_NAME_LIST.length && !found; j++){
 						found = author.equals(Main.BOOT_NAME_LIST[j]);
 					}
+					//*/
+					//found = name.equals(author) || preSceneListData.getPreSceneDataList().get(i).getId() != 386;
 					
 					if(found){
 						preSceneListData.getPreSceneDataList().remove(i);

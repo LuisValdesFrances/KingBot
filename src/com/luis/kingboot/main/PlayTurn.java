@@ -475,23 +475,39 @@ public class PlayTurn {
 		}
 	}
 	
-	private int join(List<Player> playerList, Army army1, Army army2){
+	private void orderTroops(Army army){
+		for(int i = 0; i < army.getTroopList().size(); i++){
+            for(int j = 0; j < army.getTroopList().size(); j++){
+                int aI = GameParams.TROOP_ORDER[army.getTroopList().get(i).getType()];
+                int aJ = GameParams.TROOP_ORDER[army.getTroopList().get(j).getType()];
+                if(aJ > aI){
+                    Troop aux = army.getTroopList().get(i);
+                    army.getTroopList().set(i, army.getTroopList().get(j));
+                    army.getTroopList().set(j, aux);
+                }
+            }
+        }
+	}
+	
+	private int join(List<Player> playerList, Army target, Army current){
+		orderTroops(current);
+		
 		int cost = 0;
-		for(Troop troop : army2.getTroopList()){
-			if(army1.getTroopList().size() < GameParams.MAX_NUMBER_OF_TROOPS){
+		for(Troop troop : current.getTroopList()){
+			if(target.getTroopList().size() < GameParams.MAX_NUMBER_OF_TROOPS){
 				troop.setSubject(false);
-				army1.getTroopList().add(troop);
+				target.getTroopList().add(troop);
 			}else{
 				cost += GameParams.TROOP_COST[troop.getType()]/2;
 			}
 		}
-		army1.setSelected(true);
-		army1.setDefeat(army1.isDefeat() || army2.isDefeat());
+		target.setSelected(true);
+		target.setDefeat(target.isDefeat() || current.isDefeat());
 		//Si cualquiera de los ejercitos aun no ha actuado, mantengo el estado
-		if(army1.getState()==Army.STATE_ON || army2.getState()==Army.STATE_ON){
-			army1.setState(Army.STATE_ON);
+		if(target.getState()==Army.STATE_ON || current.getState()==Army.STATE_ON){
+			target.setState(Army.STATE_ON);
 		}
-		removeArmy(playerList, army2);
+		removeArmy(playerList, current);
 		
 		return cost;
 	}
