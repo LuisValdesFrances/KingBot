@@ -163,6 +163,34 @@ public class PlayTurn {
 		boolean attackerHasDestroyed=false;
 		boolean arrackerHasBeendestroyed=false;
 		
+		
+		switch(result){
+		case 0: 
+			if(enemy != null){
+				player.setDestroyByEnemyBattles(player.getDestroyByEnemyBattles()+1);
+                enemy.getPlayer().setDestroyEnemyBattles(enemy.getPlayer().getDestroyEnemyBattles()+1);
+            }
+			break;
+		case 1:
+			if(enemy != null){
+				player.setDefeatBattles(player.getDefeatBattles()+1);
+                enemy.getPlayer().setWinBattles(enemy.getPlayer().getWinBattles()+1);
+            }
+			break;
+		case 2: 
+			if(enemy != null){
+				player.setWinBattles(player.getWinBattles()+1);
+                enemy.getPlayer().setDefeatBattles(enemy.getPlayer().getDefeatBattles()+1);
+            }
+			break;
+		case 3: 
+			if(enemy != null){
+				player.setDestroyEnemyBattles(player.getDestroyEnemyBattles()+1);
+                enemy.getPlayer().setDestroyByEnemyBattles(enemy.getPlayer().getDestroyByEnemyBattles()+1);
+            }
+			break;
+	}
+		
 		//Hay ejercito enemigo
 		if(enemy != null){
 			//Resolucion del combate

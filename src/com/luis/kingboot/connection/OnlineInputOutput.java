@@ -301,7 +301,7 @@ public class OnlineInputOutput {
 		return preSceneListData;
 	}
 	
-	public SceneListData reviceSceneListData(String user){
+	public SceneListData reviceSceneListData(String user, String type){
 		SceneListData sceneListData = null;
 		HttpURLConnection connection = null;
 		try {
@@ -313,6 +313,7 @@ public class OnlineInputOutput {
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("user", user);
+			connection.setRequestProperty("type", type);
 			connection.setDoInput(true);
 			connection.setDoOutput(false);
 			connection.setUseCaches(false);

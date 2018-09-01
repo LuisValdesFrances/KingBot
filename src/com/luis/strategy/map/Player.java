@@ -19,6 +19,12 @@ public class Player {
 	private List<Army> armyList;
 	private List<Kingdom> kingdomList;
 	
+	//Contadores:
+	private int winBattles;
+	private int defeatBattles;
+	private int destroyEnemyBattles;
+	private int destroyByEnemyBattles;
+	
 	public Player(String name, ActionIA actionIA, int flag, int capitalKingdom){
 		this.id = idCount++;
 		this.name = name;
@@ -169,7 +175,37 @@ public class Player {
 	}
 	
 	
-	
+	public int getWinBattles() {
+		return winBattles;
+	}
+
+	public void setWinBattles(int winBattles) {
+		this.winBattles = winBattles;
+	}
+
+	public int getDefeatBattles() {
+		return defeatBattles;
+	}
+
+	public void setDefeatBattles(int defeatBattles) {
+		this.defeatBattles = defeatBattles;
+	}
+
+	public int getDestroyEnemyBattles() {
+		return destroyEnemyBattles;
+	}
+
+	public void setDestroyEnemyBattles(int destroyEnemyBattles) {
+		this.destroyEnemyBattles = destroyEnemyBattles;
+	}
+
+	public int getDestroyByEnemyBattles() {
+		return destroyByEnemyBattles;
+	}
+
+	public void setDestroyByEnemyBattles(int destroyByEnemyBattles) {
+		this.destroyByEnemyBattles = destroyByEnemyBattles;
+	}
 	
 
 }

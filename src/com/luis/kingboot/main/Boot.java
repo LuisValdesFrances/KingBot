@@ -112,7 +112,7 @@ public class Boot extends Thread{
 	private void play(){
 		synchronized (mutex) {
 			//recivo todas las partidas en las que participo
-			SceneListData sceneListData = OnlineInputOutput.getInstance().reviceSceneListData(name);
+			SceneListData sceneListData = OnlineInputOutput.getInstance().reviceSceneListData(name, "active");
 			if(sceneListData != null){
 				for(SceneData sceneData : sceneListData.getSceneDataList()){
 					//Si el siguiente jugador soy yo:
