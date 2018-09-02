@@ -338,6 +338,7 @@ public class PlayTurn {
 		
 		if(deletePlayer){
 			removePlayerKingdoms(defeatPlayer);
+			removePlayerArmy(defeatPlayer);
 		}
 		
 		/*
@@ -360,11 +361,13 @@ public class PlayTurn {
 		}
 	}
 	
-	private void removePlayerKingdoms(Player player){
-		for(Kingdom k : player.getKingdomList()){
-			player.removeKingdom(k);
-		}
-	}
+	public void removePlayerKingdoms(Player player){
+        player.setKingdomList(new ArrayList<Kingdom>());
+    }
+
+	public void removePlayerArmy(Player player){
+        player.setArmyList(new ArrayList<Army>());
+    }
 	
 	private int calculateDifficult(Terrain terrain, Army armyAtack, Army armyDefense){
 		int value=0;
