@@ -16,10 +16,10 @@ public class PlayerData implements Serializable {
     private boolean isIA;
 
     //Contadores:
-    private int winBattles;
-    private int defeatBattles;
-    private int destroyEnemyBattles;
-    private int destroyByEnemyBattles;
+    private int bigDefeat;
+    private int defeat;
+    private int win;
+    private int bigWin;
 
     private List<ArmyData> armyList;
     private List<KingdomData> kingdomList;
@@ -72,36 +72,36 @@ public class PlayerData implements Serializable {
         this.isIA = isIA;
     }
 
-    public int getWinBattles() {
-        return winBattles;
+    public int getBigDefeat() {
+        return bigDefeat;
     }
 
-    public void setWinBattles(int winBattles) {
-        this.winBattles = winBattles;
+    public void setBigDefeat(int bigDefeat) {
+        this.bigDefeat = bigDefeat;
     }
 
-    public int getDefeatBattles() {
-        return defeatBattles;
+    public int getDefeat() {
+        return defeat;
     }
 
-    public void setDefeatBattles(int defeatBattles) {
-        this.defeatBattles = defeatBattles;
+    public void setDefeat(int defeat) {
+        this.defeat = defeat;
     }
 
-    public int getDestroyEnemyBattles() {
-        return destroyEnemyBattles;
+    public int getWin() {
+        return win;
     }
 
-    public void setDestroyEnemyBattles(int destroyEnemyBattles) {
-        this.destroyEnemyBattles = destroyEnemyBattles;
+    public void setWin(int win) {
+        this.win = win;
     }
 
-    public int getDestroyByEnemyBattles() {
-        return destroyByEnemyBattles;
+    public int getBigWin() {
+        return bigWin;
     }
 
-    public void setDestroyByEnemyBattles(int destroyByEnemyBattles) {
-        this.destroyByEnemyBattles = destroyByEnemyBattles;
+    public void setBigWin(int bigWin) {
+        this.bigWin = bigWin;
     }
 
     public List<ArmyData> getArmyList() {

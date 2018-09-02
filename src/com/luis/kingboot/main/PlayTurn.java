@@ -163,33 +163,39 @@ public class PlayTurn {
 		boolean attackerHasDestroyed=false;
 		boolean arrackerHasBeendestroyed=false;
 		
-		
+		int loot = 0;
 		switch(result){
 		case 0: 
 			if(enemy != null){
-				player.setDestroyByEnemyBattles(player.getDestroyByEnemyBattles()+1);
-                enemy.getPlayer().setDestroyEnemyBattles(enemy.getPlayer().getDestroyEnemyBattles()+1);
+				player.setBigDefeat(player.getBigDefeat()+1);
+                enemy.getPlayer().setBigWin(enemy.getPlayer().getBigWin()+1);
             }
 			break;
 		case 1:
 			if(enemy != null){
-				player.setDefeatBattles(player.getDefeatBattles()+1);
-                enemy.getPlayer().setWinBattles(enemy.getPlayer().getWinBattles()+1);
+				player.setDefeat(player.getDefeat()+1);
+                enemy.getPlayer().setWin(enemy.getPlayer().getWin()+1);
             }
 			break;
 		case 2: 
 			if(enemy != null){
-				player.setWinBattles(player.getWinBattles()+1);
-                enemy.getPlayer().setDefeatBattles(enemy.getPlayer().getDefeatBattles()+1);
+				player.setWin(player.getWin()+1);
+                enemy.getPlayer().setDefeat(enemy.getPlayer().getDefeat()+1);
+                loot = ((enemy.getCost() * 25) / 100);
             }
 			break;
 		case 3: 
 			if(enemy != null){
-				player.setDestroyEnemyBattles(player.getDestroyEnemyBattles()+1);
-                enemy.getPlayer().setDestroyByEnemyBattles(enemy.getPlayer().getDestroyByEnemyBattles()+1);
+				player.setBigWin(player.getBigWin()+1);
+                enemy.getPlayer().setBigDefeat(enemy.getPlayer().getBigDefeat()+1);
+                loot = ((enemy.getCost() * 50) / 100);
             }
 			break;
-	}
+		}
+		
+		if(loot > 0){
+		    player.setGold(player.getGold()+loot);
+        }
 		
 		//Hay ejercito enemigo
 		if(enemy != null){

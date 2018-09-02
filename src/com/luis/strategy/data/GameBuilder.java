@@ -98,10 +98,10 @@ public class GameBuilder {
 			Player player = new Player(name, null, flag, capitalkingdom);
 			player.setGold(gold);
 			
-			player.setDestroyByEnemyBattles(playerData.getDestroyByEnemyBattles());
-			player.setDefeatBattles(playerData.getDefeatBattles());
-			player.setWinBattles(playerData.getWinBattles());
-			player.setDestroyEnemyBattles(playerData.getDestroyEnemyBattles());
+			player.setBigDefeat(playerData.getBigDefeat());
+			player.setDefeat(playerData.getDefeat());
+			player.setWin(playerData.getWin());
+			player.setBigWin(playerData.getBigWin());
 			
 			for(KingdomData kingdomData : playerData.getKingdomList()){
 				Kingdom k = gameScene.getKingdom(kingdomData.getId());
@@ -164,10 +164,10 @@ public class GameBuilder {
 			pd.setFlag(p.getFlag());
 			pd.setIA(false);
 			
-			pd.setDestroyByEnemyBattles(p.getDestroyByEnemyBattles());
-            pd.setDefeatBattles(p.getDefeatBattles());
-            pd.setWinBattles(p.getWinBattles());
-            pd.setDestroyEnemyBattles(p.getDestroyEnemyBattles());
+			pd.setBigDefeat(p.getBigDefeat());
+            pd.setDefeat(p.getDefeat());
+            pd.setWin(p.getWin());
+            pd.setBigWin(p.getBigWin());
 			
 			//Add army list to player object
 			List<ArmyData> adList = new ArrayList<ArmyData>();
