@@ -28,8 +28,12 @@ public class Boot extends Thread{
 		super.run();
 		while(true){
 			try{
-				createScenary();
-				joinScenary();
+				if(Main.configCreateScenary){
+					createScenary();
+				}
+				if(Main.configJoinScenary){
+					joinScenary();
+				}
 				play();
 				
 				long sleep;
@@ -54,8 +58,7 @@ public class Boot extends Thread{
 			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().reviceAllPreSceneListData();
 			
 			if(preSceneListData != null && preSceneListData.getPreSceneDataList().size() < MAX_PREESCENARI){
-				//int map = Main.getRandom(0, 4);
-				int map = Main.getRandom(0, 1);
+				int map = Main.getRandom(0, 4);
 				String host = name;
 				String sceneName = "Scene by " + name;
 				
@@ -139,7 +142,7 @@ public class Boot extends Thread{
 							gameState.setGameScene(GameBuilder.getInstance().buildGameScene(gameState));
 						}
 						
-						System.err.println("\n\nTurn " + sceneData.getTurnCount() + " for " + sceneData.getNextPlayer() + " for scene " + sceneData.getId());
+						System.err.println("\nTurn " + sceneData.getTurnCount() + " for " + sceneData.getNextPlayer() + " for scene " + sceneData.getId());
 						
 						
 						playTurn = new PlayTurn();

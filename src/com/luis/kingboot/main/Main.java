@@ -2,6 +2,7 @@ package com.luis.kingboot.main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 
 public class Main {
@@ -10,6 +11,9 @@ public class Main {
 	public static final long MIN_SLEEP = 10000;
 	public static final long MAX_SLEEP = 1000*60*30;//treinta minutos
 	
+	public static boolean configCreateScenary = false;
+	public static boolean configJoinScenary = false;
+	
 	public static final String[] BOOT_NAME_LIST = {
 						
 												"SUPER PEPETONI", 
@@ -17,7 +21,8 @@ public class Main {
 												"DON COCO", 
 												"BURUFULOT", 
 												"MARIANUFLO", 
-												"XOKOLATE"
+												"XOKOLATE",
+												"JOSE A"
 	};
 	
 	/*
@@ -36,12 +41,31 @@ public class Main {
 
 	private static Object mutex;
 	public static void main(String[] args) {
-		System.out.println("Start KingBoot");
+		System.out.println("\n#### Start KingBoot ####");
+		
+		System.out.print("\nNumber of boots?: ");
+		String num = new Scanner (System.in).nextLine();
+		System.out.print("\nCreate scenary? (Y/N): ");
+		String opt = new Scanner (System.in).nextLine();
+		configCreateScenary = opt.toLowerCase().equals("y");
+		System.out.print("Join scenary? (Y/N): ");
+		opt = new Scanner (System.in).nextLine();
+		configJoinScenary = opt.toLowerCase().equals("y");
+		System.out.println();
+		
 		mutex = new Object();
+		
 		List<Boot> bootList = new ArrayList<Boot>();
 		
-		for(String name : BOOT_NAME_LIST){
-			bootList.add(new Boot(mutex, name));
+		int n = BOOT_NAME_LIST.length;
+		try{
+			n = Integer.parseInt(num);
+		}catch(Exception e){
+			System.err.println("El numero de boots qeu ha introducido no es correcto");
+			return;
+		}
+		for(int i = 0; i < n; i++){
+			bootList.add(new Boot(mutex, BOOT_NAME_LIST[i]));
 		}
 		
 		for(Boot boot : bootList){
