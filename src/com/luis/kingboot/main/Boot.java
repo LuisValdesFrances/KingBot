@@ -31,7 +31,7 @@ public class Boot extends Thread{
 				if(Main.configCreateScenary){
 					createScenary();
 				}
-				if(Main.configJoinScenary){
+				if(Main.configExcludeScenary != null){
 					joinScenary();
 				}
 				play();
@@ -76,6 +76,7 @@ public class Boot extends Thread{
 			
 			if(preSceneListData != null){
 				for(int i = 0; i < preSceneListData.getPreSceneDataList().size(); i++){
+					
 					//Obtengo al usuario que ha creado la escena
 					String author = preSceneListData.getPreSceneDataList().get(i).getHost();
 					
@@ -85,8 +86,9 @@ public class Boot extends Thread{
 					for(int j = 0; j < Main.BOOT_NAME_LIST.length && !found; j++){
 						found = author.equals(Main.BOOT_NAME_LIST[j]);
 					}
-					//*/
-					//found = name.equals(author) || preSceneListData.getPreSceneDataList().get(i).getId() != 386;
+					
+					//Si el escenario esta excluido, tampoco me apunto
+					found = isExcludedScenary(preSceneListData.getPreSceneDataList().get(i).getId());
 					
 					if(found){
 						preSceneListData.getPreSceneDataList().remove(i);
@@ -99,17 +101,25 @@ public class Boot extends Thread{
 					PreSceneData preSceneData = preSceneListData.getPreSceneDataList().get(0);
 					int insCount = (preSceneData.getPlayerList().size());
 					
-					String create = null;
 					if(insCount+1 ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){
-						create = "create";
 						System.out.println("Scene " + preSceneData.getId() + " ya contiene el total de jugadores");
+					}else{
+						System.out.println(name + " se ha unido a la escena " + preSceneData.getId() + " creada por " + preSceneData.getHost());
+						OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, "create");
 					}
 					
-					System.out.println(name + " se ha unido a la escena " + preSceneData.getId() + " creada por " + preSceneData.getHost());
-					OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, create);
 				}
 			}
 		}
+	}
+	
+	private boolean isExcludedScenary(int id){
+		for(int i = 0; i < Main.configExcludeScenary.length; i++){
+			if(id == Integer.parseInt(Main.configExcludeScenary[i].trim())){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void play(){

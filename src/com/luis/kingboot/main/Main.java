@@ -12,10 +12,9 @@ public class Main {
 	public static final long MAX_SLEEP = 1000*60*30;//treinta minutos
 	
 	public static boolean configCreateScenary = false;
-	public static boolean configJoinScenary = false;
+	public static String[] configExcludeScenary;
 	
 	public static final String[] BOOT_NAME_LIST = {
-						
 												"SUPER PEPETONI", 
 												"SUPER CAMI", 
 												"DON COCO", 
@@ -43,31 +42,60 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("\n#### Start KingBoot ####");
 		
-		System.out.print("\nNumber of boots?: ");
-		String num = new Scanner (System.in).nextLine();
+		System.out.print("\nNumber of boots? (1 to " + BOOT_NAME_LIST.length + "):  ");
+		String bootNum = new Scanner (System.in).nextLine();
 		System.out.print("\nCreate scenary? (Y/N): ");
-		String opt = new Scanner (System.in).nextLine();
-		configCreateScenary = opt.toLowerCase().equals("y");
-		System.out.print("Join scenary? (Y/N): ");
-		opt = new Scanner (System.in).nextLine();
-		configJoinScenary = opt.toLowerCase().equals("y");
+		String create = new Scanner (System.in).nextLine();
+		System.out.println("\nSelect excludes scenaries.\n"
+				+ "Examples:\n"
+				+ "22,25   ->   (Exclude 22, 25)\n"
+				+ "-1      ->   (NO exclude)\n"
+				+ "'EMPTY' ->   (Exclude ALL)");
+		String excludes = new Scanner (System.in).nextLine();
+		
 		System.out.println();
 		
-		mutex = new Object();
 		
+		//Boot verification
 		List<Boot> bootList = new ArrayList<Boot>();
-		
 		int n = BOOT_NAME_LIST.length;
 		try{
-			n = Integer.parseInt(num);
+			n = Integer.parseInt(bootNum);
+			n = n == 0 ? 1 : n;
+			System.out.println("Boots activos: " + n);
 		}catch(Exception e){
-			System.err.println("El numero de boots qeu ha introducido no es correcto");
+			System.err.println("El numero de boots que ha introducido no es correcto.");
 			return;
 		}
 		for(int i = 0; i < n; i++){
 			bootList.add(new Boot(mutex, BOOT_NAME_LIST[i]));
 		}
 		
+		//Create scenaries verification
+		configCreateScenary = create.toLowerCase().equals("y");
+		System.out.println("Creacion de escenarios: " + configCreateScenary);
+		
+		//Exclude verification
+		try{
+			configExcludeScenary = excludes.split(",");
+			if(configExcludeScenary != null && configExcludeScenary.length == 1 && configExcludeScenary[0].equals("")){
+				configExcludeScenary = null;
+			}
+		}catch(Exception e){
+			configExcludeScenary = null;
+		}
+		if(configExcludeScenary != null){
+			String ex = "";
+			for(String s : configExcludeScenary){ex += (s + " ");};
+			System.out.println("Exclude scenaries: " + ex);
+		}else{
+			System.out.println("All scenaries have been excluded.");
+		}
+		
+		
+		
+		//Start boots
+		mutex = new Object();
 		for(Boot boot : bootList){
 			boot.start();
 		}
