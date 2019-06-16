@@ -15,13 +15,13 @@ public class Main {
 	public static String[] configExcludeScenary;
 	
 	public static final String[] BOOT_NAME_LIST = {
-												"SUPER PEPETONI", 
+												"SUPER PEPETONI",
 												"SUPER CAMI", 
 												"DON COCO", 
 												"BURUFULOT", 
 												"MARIANUFLO", 
 												"XOKOLATE",
-												"JOSE A"
+												"BERG"
 	};
 	
 	/*
@@ -40,13 +40,14 @@ public class Main {
 
 	private static Object mutex;
 	public static void main(String[] args) {
+		mutex = new Object();
 		System.out.println("\n#### Start KingBoot ####");
 		
 		System.out.print("\nNumber of boots? (1 to " + BOOT_NAME_LIST.length + "):  ");
 		String bootNum = new Scanner (System.in).nextLine();
 		System.out.print("\nCreate scenary? (Y/N): ");
 		String create = new Scanner (System.in).nextLine();
-		System.out.println("\nSelect excludes scenaries.\n"
+		System.out.println("\nSelect excludes scenaries (Boots won't join to they).\n"
 				+ "Examples:\n"
 				+ "22,25   ->   (Exclude 22, 25)\n"
 				+ "-1      ->   (NO exclude)\n"
@@ -54,7 +55,6 @@ public class Main {
 		String excludes = new Scanner (System.in).nextLine();
 		
 		System.out.println();
-		
 		
 		//Boot verification
 		List<Boot> bootList = new ArrayList<Boot>();
@@ -92,10 +92,7 @@ public class Main {
 			System.out.println("All scenaries have been excluded.");
 		}
 		
-		
-		
 		//Start boots
-		mutex = new Object();
 		for(Boot boot : bootList){
 			boot.start();
 		}

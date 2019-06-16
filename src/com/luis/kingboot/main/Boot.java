@@ -1,14 +1,17 @@
 package com.luis.kingboot.main;
 
+import java.util.List;
 import java.util.Random;
 
 import com.luis.kingboot.connection.OnlineInputOutput;
 import com.luis.strategy.data.DataKingdom;
 import com.luis.strategy.data.GameBuilder;
+import com.luis.strategy.datapackage.scene.PlayerData;
 import com.luis.strategy.datapackage.scene.PreSceneData;
 import com.luis.strategy.datapackage.scene.PreSceneListData;
 import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.SceneListData;
+import com.luis.strategy.map.Player;
 
 public class Boot extends Thread{
 	
@@ -80,34 +83,33 @@ public class Boot extends Thread{
 					//Obtengo al usuario que ha creado la escena
 					String author = preSceneListData.getPreSceneDataList().get(i).getHost();
 					
-					//Si es un boot no se une a la partida del boot
-					boolean found = false;
-					///*
-					for(int j = 0; j < Main.BOOT_NAME_LIST.length && !found; j++){
-						found = author.equals(Main.BOOT_NAME_LIST[j]);
+					//Si el escenario esta creado por un boot, no se une
+					//Si el escenario ya contiene a boot, no se une
+					//Si el escenario esta en la lista de excluidos, no se une
+					boolean isCreatedByBoot = false;
+					for(int j = 0; j < Main.BOOT_NAME_LIST.length && !isCreatedByBoot; j++){
+						isCreatedByBoot = author.equals(Main.BOOT_NAME_LIST[j]);
 					}
 					
-					//Si el escenario esta excluido, tampoco me apunto
-					found = isExcludedScenary(preSceneListData.getPreSceneDataList().get(i).getId());
-					
-					if(found){
-						preSceneListData.getPreSceneDataList().remove(i);
-						i--;
-					}
-				}
-				
-				//Me uno a la partida
-				if(preSceneListData.getPreSceneDataList().size() > 0){
-					PreSceneData preSceneData = preSceneListData.getPreSceneDataList().get(0);
-					int insCount = (preSceneData.getPlayerList().size());
-					
-					if(insCount+1 ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){
-						System.out.println("Scene " + preSceneData.getId() + " ya contiene el total de jugadores");
-					}else{
-						System.out.println(name + " se ha unido a la escena " + preSceneData.getId() + " creada por " + preSceneData.getHost());
-						OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, "create");
+					boolean isBootPresent = false;
+					List<PlayerData> players = preSceneListData.getPreSceneDataList().get(i).getPlayerList();
+					for(int j = 0; j < players.size() && !isBootPresent; j++){
+						isBootPresent = players.get(j).getName().equals(getName());
 					}
 					
+					if(!isCreatedByBoot && !isBootPresent && !isExcludedScenary(preSceneListData.getPreSceneDataList().get(i).getId())){
+						//Me uno a la partida
+						PreSceneData preSceneData = preSceneListData.getPreSceneDataList().get(i);
+						int insCount = (preSceneData.getPlayerList().size());
+						
+						if(insCount ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){
+							System.out.println("Scene " + preSceneData.getId() + " ya contiene el total de jugadores");
+						}else{
+							System.out.println(name + " se ha unido a la escena " + preSceneData.getId() + " creada por " + preSceneData.getHost());
+							String create = (insCount+1) == DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length ? "create" : null;
+							OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, create);
+						}
+					}
 				}
 			}
 		}
