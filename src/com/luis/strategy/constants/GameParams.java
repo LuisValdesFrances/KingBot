@@ -34,10 +34,10 @@ public class GameParams {
 												{ 300, 600, 1200 }, 
 												{ 400, 800, 1600 }};
 
-	public static final int[][] BUILDING_STATE = { 
-												 { 3, 5, 7 }, 
-												 { 4, 7, 10 },
-												 { 5, 9, 13 }};
+	public static final int[][] BUILDING_STATE = {
+												{ 2, 3, 5 },
+												{ 3, 5, 8 },
+												{ 4, 7, 10 }};
 	
 	//Id tropa
 	public static final int INFANTRY = 0;
