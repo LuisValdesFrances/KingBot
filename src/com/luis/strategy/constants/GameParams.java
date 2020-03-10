@@ -20,6 +20,14 @@ public class GameParams {
 	//Ganancias reportadas por el territorio
 	public static final int[] TERRAIN_TAX =			new int[]{50, 30, 10, 20, 10};
 	
+	 //Ganancias reportadas en las batallas
+    public static final int PERCENT_VICTORY_LOOT = 40;
+    public static final int PERCENT_BIG_VICTORY_LOOT = 80;
+    
+    //Perdidas de tropas en las batallas
+    public static final int PERCENT_CASUALTIES_VICTORY = 25;
+    public static final int PERCENT_CASUALTIES_DEFEAT = 50;
+	
 	public static final int[] TOWER_DEFENSE = 		new int[]{6, 12, 18};
 	public static final int[] MARKET_TAX = 			new int[]{30, 60, 80};
 	

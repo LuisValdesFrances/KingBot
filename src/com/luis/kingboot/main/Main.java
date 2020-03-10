@@ -15,13 +15,13 @@ public class Main {
 	public static String[] configExcludeScenary;
 	
 	public static final String[] BOOT_NAME_LIST = {
+												
 												"SUPER PEPETONI",
 												"SUPER CAMI", 
 												"DON COCO", 
 												"BURUFULOT", 
 												"MARIANUFLO", 
-												"XOKOLATE",
-												"BERG"
+												"XOKOLATE"
 	};
 	
 	/*

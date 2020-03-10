@@ -181,14 +181,14 @@ public class PlayTurn {
 			if(enemy != null){
 				player.setWin(player.getWin()+1);
                 enemy.getPlayer().setDefeat(enemy.getPlayer().getDefeat()+1);
-                loot = ((enemy.getCost() * 25) / 100);
+                loot = ((enemy.getCost() * GameParams.PERCENT_VICTORY_LOOT) / 100);
             }
 			break;
 		case 3: 
 			if(enemy != null){
 				player.setBigWin(player.getBigWin()+1);
                 enemy.getPlayer().setBigDefeat(enemy.getPlayer().getBigDefeat()+1);
-                loot = ((enemy.getCost() * 50) / 100);
+                loot = ((enemy.getCost() * GameParams.PERCENT_BIG_VICTORY_LOOT) / 100);
             }
 			break;
 		}
@@ -230,11 +230,11 @@ public class PlayTurn {
 				int casualtiesFromArmy = 0;
 				int casualtiesFromEnemy = 0;
 				if(result == 1){//Ejercito selecionado pierde
-					casualtiesFromArmy = (selectedArmy.getCost() * 25) / 100; 
-					casualtiesFromEnemy = (enemy.getCost() * 50) / 100; 
+					casualtiesFromArmy = (selectedArmy.getCost() * GameParams.PERCENT_CASUALTIES_VICTORY) / 100; 
+					casualtiesFromEnemy = (enemy.getCost() * GameParams.PERCENT_CASUALTIES_DEFEAT) / 100; 
 				}else if(result == 2){//Ejercito selecionado gana
-					casualtiesFromArmy = (selectedArmy.getCost() * 50) / 100; 
-					casualtiesFromEnemy = (enemy.getCost() * 25) / 100;
+					casualtiesFromArmy = (selectedArmy.getCost() * GameParams.PERCENT_CASUALTIES_DEFEAT) / 100; 
+					casualtiesFromEnemy = (enemy.getCost() * GameParams.PERCENT_CASUALTIES_VICTORY) / 100;
 				}
 				selectedArmy.setDamage(casualtiesFromEnemy);
 				enemy.setDamage(casualtiesFromArmy);
