@@ -187,7 +187,9 @@ public class OnlineInputOutput {
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("scene", scene);
 			connection.setRequestProperty("user", user);
-			connection.setRequestProperty("create", create);
+			if(create != null){
+				connection.setRequestProperty("create", create);
+			}
 			connection.setDoInput(true);
 			connection.setDoOutput(true);
 			connection.setUseCaches(false);
@@ -248,7 +250,7 @@ public class OnlineInputOutput {
 		return result;
 	}
 	
-	public PreSceneListData revicePreSceneListData(String user){
+	public PreSceneListData recivePreSceneListData(String user){
 		PreSceneListData preSceneListData = null;
 		HttpURLConnection connection = null;
 		try {

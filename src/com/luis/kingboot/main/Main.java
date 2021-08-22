@@ -11,17 +11,17 @@ public class Main {
 	public static final long MIN_SLEEP = 10000;
 	public static final long MAX_SLEEP = 1000*60*30;//treinta minutos
 	
-	public static boolean configCreateScenary = false;
-	public static String[] configExcludeScenary;
+	public static boolean configCreateScene = false;
+	public static String[] configExcludeScene;
 	
 	public static final String[] BOOT_NAME_LIST = {
-												
 												"SUPER PEPETONI",
 												"SUPER CAMI", 
 												"DON COCO", 
 												"BURUFULOT", 
 												"MARIANUFLO", 
 												"XOKOLATE"
+												//,"JOSE A"
 	};
 	
 	/*
@@ -72,21 +72,21 @@ public class Main {
 		}
 		
 		//Create scenaries verification
-		configCreateScenary = create.toLowerCase().equals("y");
-		System.out.println("Creacion de escenarios: " + configCreateScenary);
+		configCreateScene = create.toLowerCase().equals("y");
+		System.out.println("Creacion de escenarios: " + configCreateScene);
 		
 		//Exclude verification
 		try{
-			configExcludeScenary = excludes.split(",");
-			if(configExcludeScenary != null && configExcludeScenary.length == 1 && configExcludeScenary[0].equals("")){
-				configExcludeScenary = null;
+			configExcludeScene = excludes.split(",");
+			if(configExcludeScene != null && configExcludeScene.length == 1 && configExcludeScene[0].equals("")){
+				configExcludeScene = null;
 			}
 		}catch(Exception e){
-			configExcludeScenary = null;
+			configExcludeScene = null;
 		}
-		if(configExcludeScenary != null){
+		if(configExcludeScene != null){
 			String ex = "";
-			for(String s : configExcludeScenary){ex += (s + " ");};
+			for(String s : configExcludeScene){ex += (s + " ");};
 			System.out.println("Exclude scenaries: " + ex);
 		}else{
 			System.out.println("All scenaries have been excluded.");
@@ -96,6 +96,10 @@ public class Main {
 		for(Boot boot : bootList){
 			boot.start();
 		}
+		
+		//
+		SceneCreator sceneCreator = new SceneCreator();
+		sceneCreator.start();
 	}
 
 	

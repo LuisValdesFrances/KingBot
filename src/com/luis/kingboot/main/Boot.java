@@ -13,11 +13,10 @@ import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.SceneListData;
 import com.luis.strategy.map.Player;
 
-public class Boot extends Thread{
+public class Boot extends Thread {
 	
 	private Object mutex;
 	private String name;
-	
 	
 	private static final int MAX_PREESCENARI = 5;
 	
@@ -31,11 +30,11 @@ public class Boot extends Thread{
 		super.run();
 		while(true){
 			try{
-				if(Main.configCreateScenary){
-					createScenary();
+				if(Main.configCreateScene){
+					createScene();
 				}
-				if(Main.configExcludeScenary != null){
-					joinScenary();
+				if(Main.configExcludeScene != null){
+					joinScene();
 				}
 				play();
 				
@@ -55,7 +54,7 @@ public class Boot extends Thread{
 		}
 	}
 	
-	private void createScenary(){
+	private void createScene(){
 		synchronized (mutex) {
 			
 			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().reviceAllPreSceneListData();
@@ -66,16 +65,15 @@ public class Boot extends Thread{
 				String sceneName = "Scene by " + name;
 				
 				OnlineInputOutput.getInstance().sendPreScene(""+map, host, sceneName);
-				
 				System.out.println(name + " has created a new scene");
 			}
 		}
 	}
 	
-	private void joinScenary(){
+	private void joinScene(){
 		synchronized (mutex) {
 			
-			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().revicePreSceneListData(name);
+			PreSceneListData preSceneListData =  OnlineInputOutput.getInstance().recivePreSceneListData(name);
 			
 			if(preSceneListData != null){
 				for(int i = 0; i < preSceneListData.getPreSceneDataList().size(); i++){
@@ -105,9 +103,9 @@ public class Boot extends Thread{
 						if(insCount ==  DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length){
 							System.out.println("Scene " + preSceneData.getId() + " ya contiene el total de jugadores");
 						}else{
-							System.out.println(name + " se ha unido a la escena " + preSceneData.getId() + " creada por " + preSceneData.getHost());
 							String create = (insCount+1) == DataKingdom.INIT_MAP_DATA[preSceneData.getMap()].length ? "create" : null;
 							OnlineInputOutput.getInstance().sendInscription(""+preSceneData.getId(), name, create);
+							System.out.println(name + " se ha unido a la escena " + preSceneData.getId() + " creada por " + preSceneData.getHost());
 						}
 					}
 				}
@@ -116,8 +114,8 @@ public class Boot extends Thread{
 	}
 	
 	private boolean isExcludedScenary(int id){
-		for(int i = 0; i < Main.configExcludeScenary.length; i++){
-			if(id == Integer.parseInt(Main.configExcludeScenary[i].trim())){
+		for(int i = 0; i < Main.configExcludeScene.length; i++){
+			if(id == Integer.parseInt(Main.configExcludeScene[i].trim())){
 				return true;
 			}
 		}
