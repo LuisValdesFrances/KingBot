@@ -11,6 +11,7 @@ import com.luis.strategy.datapackage.scene.PreSceneData;
 import com.luis.strategy.datapackage.scene.PreSceneListData;
 import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.datapackage.scene.SceneListData;
+import com.luis.strategy.map.GameScene;
 import com.luis.strategy.map.Player;
 
 public class Boot extends Thread {
@@ -167,7 +168,7 @@ public class Boot extends Thread {
 							}
 							while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
 							
-							if(playerIndex==0){
+							if(playerIndex==this.getMinorIndex(gameState.getGameScene())){
 								gameState.getGameScene().setTurnCount(gameState.getGameScene().getTurnCount()+1);
 							}
 							gameState.getGameScene().setPlayerIndex(playerIndex);
@@ -200,5 +201,15 @@ public class Boot extends Thread {
         if(random == null) random = new Random();
         return _i0 + Math.abs(random.nextLong() % (1 + _i1 - _i0));
     }
+    
+    private int getMinorIndex(GameScene gameScene){
+		int minorIndex = gameScene.getPlayerList().get(gameScene.getPlayerList().size()-1).getId();
+		for(Player player : gameScene.getPlayerList()){
+			if(player.getNumberCitys() > 0 && player.getId() < minorIndex){
+				minorIndex = player.getId();
+			}
+		}
+		return minorIndex;
+	}
 
 }

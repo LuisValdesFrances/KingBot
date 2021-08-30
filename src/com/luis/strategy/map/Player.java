@@ -173,6 +173,16 @@ public class Player {
 	public void setCapitalKingdom(int capitalKingdom) {
 		this.capitalKingdom = capitalKingdom;
 	}
+	
+	public int getNumberCitys(){
+		int n = 0;
+		for(int i = 0; i < kingdomList.size(); i++){
+			if(kingdomList.get(i).isACity()){
+				n++;
+			}
+		}
+		return n;
+	}
 
 	public int getBigDefeat() {
 		return bigDefeat;

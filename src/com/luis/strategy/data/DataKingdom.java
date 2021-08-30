@@ -464,8 +464,8 @@ public class DataKingdom {
 			terrainList = new ArrayList<Terrain>();
 			terrainList = new ArrayList<Terrain>();
 			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
-			terrainList.add(new Terrain(map, GameParams.PLAIN, false));
+			terrainList.add(new Terrain(map, GameParams.FOREST, false));
+			terrainList.add(new Terrain(map, GameParams.FOREST, false));
 			terrainList.add(new Terrain(map, GameParams.CITY, false));
 			k36.setTerrainList(terrainList);
 			
