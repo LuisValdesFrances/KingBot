@@ -7,7 +7,7 @@ import com.luis.strategy.constants.GameParams;
 
 public class Player {
 	
-	private static int idCount;
+	public static int idCount;
 	
 	private int id;
 	private String name;

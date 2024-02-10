@@ -1,4 +1,4 @@
-package com.luis.kingboot.main;
+package com.luis.kingbot.main;
 
 import com.luis.strategy.datapackage.scene.SceneData;
 import com.luis.strategy.map.GameScene;

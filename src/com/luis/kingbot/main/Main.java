@@ -1,4 +1,4 @@
-package com.luis.kingboot.main;
+package com.luis.kingbot.main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,7 +14,7 @@ public class Main {
 	public static boolean configCreateScene = false;
 	public static String[] configExcludeScene;
 	
-	public static final String[] BOOT_NAME_LIST = {
+	public static final String[] BOT_NAME_LIST = {
 												"SUPER PEPETONI",
 												"SUPER CAMI", 
 												"DON COCO", 
@@ -22,6 +22,7 @@ public class Main {
 												"MARIANUFLO", 
 												"XOKOLATE"
 												//,"JOSE A"
+												//,"LUSON"
 	};
 	
 	/*
@@ -43,11 +44,11 @@ public class Main {
 		mutex = new Object();
 		System.out.println("\n#### Start KingBoot ####");
 		
-		System.out.print("\nNumber of boots? (1 to " + BOOT_NAME_LIST.length + "):  ");
+		System.out.print("\nNumber of bots? (1 to " + BOT_NAME_LIST.length + "):  ");
 		String bootNum = new Scanner (System.in).nextLine();
 		System.out.print("\nCreate scenary? (Y/N): ");
 		String create = new Scanner (System.in).nextLine();
-		System.out.println("\nSelect excludes scenaries (Boots won't join to they).\n"
+		System.out.println("\nSelect excludes scenaries (Bots won't join to they).\n"
 				+ "Examples:\n"
 				+ "22,25   ->   (Exclude 22, 25)\n"
 				+ "-1      ->   (NO exclude)\n"
@@ -57,18 +58,18 @@ public class Main {
 		System.out.println();
 		
 		//Boot verification
-		List<Boot> bootList = new ArrayList<Boot>();
-		int n = BOOT_NAME_LIST.length;
+		List<Bot> bootList = new ArrayList<Bot>();
+		int n = BOT_NAME_LIST.length;
 		try{
 			n = Integer.parseInt(bootNum);
 			n = n == 0 ? 1 : n;
-			System.out.println("Boots activos: " + n);
+			System.out.println("Bots activos: " + n);
 		}catch(Exception e){
-			System.err.println("El numero de boots que ha introducido no es correcto.");
+			System.err.println("El numero de bots que ha introducido no es correcto.");
 			return;
 		}
 		for(int i = 0; i < n; i++){
-			bootList.add(new Boot(mutex, BOOT_NAME_LIST[i]));
+			bootList.add(new Bot(mutex, BOT_NAME_LIST[i]));
 		}
 		
 		//Create scenaries verification
@@ -93,7 +94,7 @@ public class Main {
 		}
 		
 		//Start boots
-		for(Boot boot : bootList){
+		for(Bot boot : bootList){
 			boot.start();
 		}
 		

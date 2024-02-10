@@ -1,4 +1,4 @@
-package com.luis.kingboot.connection;
+package com.luis.kingbot.connection;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -1,9 +1,9 @@
-package com.luis.kingboot.main;
+package com.luis.kingbot.main;
 
 import java.util.List;
 import java.util.Random;
 
-import com.luis.kingboot.connection.OnlineInputOutput;
+import com.luis.kingbot.connection.OnlineInputOutput;
 import com.luis.strategy.data.DataKingdom;
 import com.luis.strategy.data.GameBuilder;
 import com.luis.strategy.datapackage.scene.PlayerData;
@@ -14,14 +14,14 @@ import com.luis.strategy.datapackage.scene.SceneListData;
 import com.luis.strategy.map.GameScene;
 import com.luis.strategy.map.Player;
 
-public class Boot extends Thread {
+public class Bot extends Thread {
 	
 	private Object mutex;
 	private String name;
 	
 	private static final int MAX_PREESCENARI = 5;
 	
-	public Boot(Object mutex, String name){
+	public Bot(Object mutex, String name){
 		this.mutex = mutex;
 		this.name = name;
 	}
@@ -82,12 +82,12 @@ public class Boot extends Thread {
 					//Obtengo al usuario que ha creado la escena
 					String author = preSceneListData.getPreSceneDataList().get(i).getHost();
 					
-					//Si el escenario esta creado por un boot, no se une
+					//Si el escenario esta creado por un bot, no se une
 					//Si el escenario ya contiene a boot, no se une
 					//Si el escenario esta en la lista de excluidos, no se une
 					boolean isCreatedByBoot = false;
-					for(int j = 0; j < Main.BOOT_NAME_LIST.length && !isCreatedByBoot; j++){
-						isCreatedByBoot = author.equals(Main.BOOT_NAME_LIST[j]);
+					for(int j = 0; j < Main.BOT_NAME_LIST.length && !isCreatedByBoot; j++){
+						isCreatedByBoot = author.equals(Main.BOT_NAME_LIST[j]);
 					}
 					
 					boolean isBootPresent = false;
@@ -168,8 +168,13 @@ public class Boot extends Thread {
 							}
 							while(gameState.getGameScene().getPlayerList().get(playerIndex).getCapitalkingdom() == null);
 							
-							if(playerIndex==this.getMinorIndex(gameState.getGameScene())){
-								gameState.getGameScene().setTurnCount(gameState.getGameScene().getTurnCount()+1);
+							int minorIndex = this.getMinorIndex(gameState.getGameScene());
+							System.out.println("New player: " + gameState.getGameScene().getPlayerList().get(playerIndex).getName() + " - Index:" + playerIndex + " - Minor index:" + minorIndex);
+							if(playerIndex == minorIndex){
+								int currentTurn = gameState.getGameScene().getTurnCount();
+								int newTurn = currentTurn+1;
+								System.out.println("Current turn:" + currentTurn + " New turn:" + newTurn);
+								gameState.getGameScene().setTurnCount(newTurn);
 							}
 							gameState.getGameScene().setPlayerIndex(playerIndex);
 							sd = GameBuilder.getInstance().buildSceneData(gameState, 1);
@@ -203,7 +208,8 @@ public class Boot extends Thread {
     }
     
     private int getMinorIndex(GameScene gameScene){
-		int minorIndex = gameScene.getPlayerList().get(gameScene.getPlayerList().size()-1).getId();
+    	List<Player> players = gameScene.getPlayerList();
+		int minorIndex = players.get(players.size()-1).getId();
 		for(Player player : gameScene.getPlayerList()){
 			if(player.getNumberCitys() > 0 && player.getId() < minorIndex){
 				minorIndex = player.getId();

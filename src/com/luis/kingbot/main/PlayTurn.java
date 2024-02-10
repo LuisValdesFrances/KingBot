@@ -1,9 +1,9 @@
-package com.luis.kingboot.main;
+package com.luis.kingbot.main;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.luis.kingboot.connection.OnlineInputOutput;
+import com.luis.kingbot.connection.OnlineInputOutput;
 import com.luis.strategy.constants.GameParams;
 import com.luis.strategy.map.ActionIA;
 import com.luis.strategy.map.Army;

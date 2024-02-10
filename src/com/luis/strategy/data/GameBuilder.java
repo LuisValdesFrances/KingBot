@@ -3,7 +3,7 @@ package com.luis.strategy.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.luis.kingboot.main.GameState;
+import com.luis.kingbot.main.GameState;
 import com.luis.strategy.constants.GameParams;
 import com.luis.strategy.datapackage.scene.ArmyData;
 import com.luis.strategy.datapackage.scene.BuildingData;
@@ -141,6 +141,7 @@ public class GameBuilder {
 			}
 			playerList.add(player);
 		}
+		Player.idCount = 0;//Mierdon
 		gameScene.setPlayerList(playerList);
 		
 		return gameScene;
