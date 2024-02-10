@@ -97,7 +97,6 @@ public class Main {
 		for(Bot boot : bootList){
 			boot.start();
 		}
-		
 		//
 		SceneCreator sceneCreator = new SceneCreator();
 		sceneCreator.start();
